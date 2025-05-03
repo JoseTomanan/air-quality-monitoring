@@ -5,3 +5,6 @@ from enum import Enum, StrEnum, auto
 
 class ObservationPoint():
     ...
+
+class Location():
+    ...
