@@ -10,6 +10,7 @@ observation_points: list[ObservationPoint] = []
 def root():
     return {"air": "bad"}
 
+
 """
 For adding new observation points
 """
@@ -18,6 +19,7 @@ def add_point(point: ObservationPoint):
     observation_points.append(point)
     return point
 
+
 """
 For deleting observation points
 """
@@ -25,6 +27,7 @@ For deleting observation points
 def delete_point(point: ObservationPoint):
     observation_points.remove(point)
     return observation_points
+
 
 """
 Given location ID, return corresponding observation point 
