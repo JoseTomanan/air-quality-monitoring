@@ -27,13 +27,14 @@ def delete_point(point: ObservationPoint):
     return observation_points
 
 """
-Given a location, return air quality details
+Given location ID, return corresponding observation point 
+Should include air quality related details
 """
-@app.post("/locations/{loc}")
-def check_location(loc: Location):
+@app.post("/points/{loc_id}")
+def get_point(id: int):
     if ...:
         ...
         
     else:
-        raise HTTPException(status_code=404, detail="Location does not exist")
+        raise HTTPException(status_code=404, detail="Observation point does not exist")
 
