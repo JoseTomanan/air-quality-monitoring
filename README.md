@@ -1,3 +1,17 @@
-# Web app for air quality monitoring system
+## To install prerequisites:
+```bash
+pip install -r requirements.txt
+```
 
-In compliance with CS 145
+## To run the server:
+
+```bash
+cd src
+uvicorn main:app  # default
+uvicorn main:app --reload  # to enable hot reloading
+```
+
+## Once launched:
+```
+https://localhost:8000
+```
