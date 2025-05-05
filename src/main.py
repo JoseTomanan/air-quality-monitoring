@@ -9,38 +9,39 @@ templates = Jinja2Templates(directory="../templates")
 
 observation_points: list[ObservationPoint] = []
 
-"""
-Result when accessing root of site
-"""
+
 @app.get("/") 
 def root():
+    """
+    Result when accessing root of site
+    """
     return templates.TemplateResponse("root.html")
 
 
-"""
-For adding new observation points
-"""
 @app.post("/add_point")
 def add_point(point: ObservationPoint):
+    """
+    For adding new observation points
+    """
     observation_points.append(point)
     return point
 
 
-"""
-For deleting observation points
-"""
 @app.post("/delete_point")
 def delete_point(point: ObservationPoint):
+    """
+    For deleting observation points
+    """
     observation_points.remove(point)
     return observation_points
 
 
-"""
-Given location ID, return corresponding observation point 
-Should include air quality related details
-"""
 @app.post("/points/{device_id}")
 def get_point(device_id: int):
+    """
+    Given location ID, return corresponding observation point 
+    Should include air quality related details
+    """
     ...
 
     returnable = templates.TemplateResponse(
