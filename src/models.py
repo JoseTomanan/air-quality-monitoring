@@ -1,24 +1,25 @@
 from datetime import datetime
-from sqlmodel import SQLModel
+from sqlmodel import SQLModel, Field
+from typing import Optional
 
 
-class ObservationPoint(SQLModel):
+class ObservationPoint(SQLModel, table=True):
     """
     Construct for image being passed
     """
-    device_id: int
-    name: str
-    latitude: float
-    longitude: float
+    device_id: Optional[int] = Field(primary_key=True)
+    name: str = Field(index=True, nullable=True)
+    latitude: float = Field()
+    longitude: float = Field()
 
-class Message(SQLModel):
+class Message(SQLModel, table="True"):
     """
     Data type of message passed by microcontroller
     """
-    device_id: int
-    sequence: int
-    timestamp: datetime
-    gas_value: int
-    pm1_0: int
-    pm2_5: int
-    pm10_0: int
+    device_id: Optional[int] = Field(primary_key=True)
+    sequence: int = Field()
+    timestamp: datetime = Field()
+    gas_value: int = Field()
+    pm1_0: int = Field()
+    pm2_5: int = Field()
+    pm10_0: int = Field()
