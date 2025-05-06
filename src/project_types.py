@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import Protocol
 from enum import Enum, StrEnum, auto
-from pydantic import BaseModel
+from sqlmodel import SQLModel
 
 
-class ObservationPoint(BaseModel):
+class ObservationPoint(SQLModel):
     """
     Construct for image being passed
     """
@@ -13,7 +13,7 @@ class ObservationPoint(BaseModel):
     latitude: float
     longitude: float
 
-class Message(BaseModel):
+class Message(SQLModel):
     """
     Data type of message passed by microcontroller
     """
