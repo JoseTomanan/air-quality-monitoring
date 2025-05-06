@@ -11,4 +11,9 @@ def create_db_and_tables():
     """
     Initialize database, tables; Use create_engine and SQLite
     """
-    SQLModel.metadata.create_all(engine)
+    try:
+        SQLModel.metadata.create_all(engine)
+        print("Database tables created successfully")
+    
+    except Exception as e:
+        print(f"Error creating database tables: {e}")
