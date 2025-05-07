@@ -26,25 +26,8 @@ async def root(request: Request):
         name="index.html"
         )
 
-
-@app.post("/add_point")
-def add_point(point: ObservationPoint):
-    """
-    For adding new observation points
-    """
-    ...
-
-
-@app.post("/delete_point")
-def delete_point(point_id: int):
-    """
-    For deleting observation points
-    """
-    ...
-
-
 @app.get("/points/{device_id}")
-def get_point(request: Request, device_id: int):
+def get_air_data(request: Request, device_id: int):
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
@@ -65,7 +48,23 @@ def get_point(request: Request, device_id: int):
             }
         )
 
-@app.post("send_data")
+@app.post("/add_point")
+def add_point(point: ObservationPoint):
+    """
+    For adding new observation points
+    """
+    ...
+
+
+@app.post("/delete_point")
+def delete_point(point_id: int):
+    """
+    For deleting observation points
+    """
+    ...
+
+
+@app.post("/send_data")
 def send_data(message: Message):
     """
     For sensors; Send tick of data to server
