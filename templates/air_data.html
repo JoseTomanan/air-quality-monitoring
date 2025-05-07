@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Get air quality information</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script lang="ts">
+        /** script */
+    </script>
+    <style type="text/tailwindcss">
+        
+    </style>
+</head>
+<body>
+    <h1>Information at Sensor # {{ device_id }}</h1>
+    <ul class="list-inside list-disc">
+        <li>device ID: {{ device_id }} </li>
+        <li>location name: {{ location_name }}</li>
+        <li>coordinates: {{ latitude }}, {{ longitude }}</li>
+        <li>air quality: {{ status }}</li>
+        <li>gas value:</li>
+    </ul>
+</body>
+</html>
