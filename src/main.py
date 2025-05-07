@@ -1,21 +1,30 @@
 from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from project_types import ObservationPoint
+
+from models import *
+from database import *
 
 
 app = FastAPI()
+app.mount("/assets", StaticFiles(directory="../assets"), name="assets")
 
 templates = Jinja2Templates(directory="../templates")
 
-observation_points: list[ObservationPoint] = []
+fake_db_points: list[ObservationPoint] = []
+fake_db_messages: list[Message] = []
 
 
-@app.get("/") 
-def root():
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request):
     """
-    Result when accessing root of site
+    Render homepage
     """
-    return templates.TemplateResponse("root.html")
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html"
+        )
 
 
 @app.post("/add_point")
@@ -23,20 +32,18 @@ def add_point(point: ObservationPoint):
     """
     For adding new observation points
     """
-    observation_points.append(point)
-    return point
+    ...
 
 
 @app.post("/delete_point")
-def delete_point(point: ObservationPoint):
+def delete_point(point_id: int):
     """
     For deleting observation points
     """
-    observation_points.remove(point)
-    return observation_points
+    ...
 
 
-@app.post("/points/{device_id}")
+@app.get("/points/{device_id}")
 def get_point(device_id: int):
     """
     Given location ID, return corresponding observation point 
@@ -44,9 +51,7 @@ def get_point(device_id: int):
     """
     ...
 
-    returnable = templates.TemplateResponse(
-        "index.html",
-        {"device_id": device_id, }
+    return templates.TemplateResponse(
+        name="index.html",
+        context={"device_id": device_id, }
         )
-
-    return returnable
