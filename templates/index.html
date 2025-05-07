@@ -1,34 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Air Quality Monitoring</title>
-    <link rel="stylesheet" href="../static/styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% extends "_base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block script%}
     <script lang="ts">
         /** script */
     </script>
+{% endblock %}
+
+{% block style %}
     <style type="text/tailwindcss">
         a {
             @apply text-blue-500 hover:underline
         }
     </style>
-</head>
+{% endblock %}
 
-<body>
+{% block body %}
     <header>
         <h1>Air Quality Monitoring</h1>
     </header>
     <h2>To get started, visit <a href="/docs">the docs interface</a></h2>
     <h2>Or alternatively, navigate to one of the links below:</h2>
     <ul class="list-inside list-disc">
-        <li><a href="/points/0">/points/0</a> (GET): get air information for specified device ID. can replace 0 with other device ID.</li>
-        <li><a href="/add_point">add_point</a> (POST): add an observation point</li>
-        <li><a href="/delete_point">delete_point</a> (POST): delete an observation point</li>
-        <li><a href="/send_data">send_data</a> (POST): (for sensors) send a tick of data</li>
+        <li><a href="/points/0">/points/0</a> (GET)
+            : get air information for specified device ID. can replace 0 with other device ID.
+        </li>
+        <li>
+            <a href="/add_point">/add_point</a> (POST)
+            : add an observation point
+        </li>
+        <li><a href="/delete_point">/delete_point</a> (POST)
+            : delete an observation point
+        </li>
+        <li><a href="/send_data">/send_data</a> (POST)
+            : (for sensors) send a tick of data
+        </li>
     </ul>
-</body>
-
-</html>
+{% endblock %}
