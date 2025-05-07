@@ -14,7 +14,7 @@ uvicorn main:app  # default
 uvicorn main:app --reload  # to enable hot reloading
 ```
 
-## To launch the webpage:
+## To test the endpoints:
 ```
-https://localhost:8000
+https://localhost:8000/docs
 ```
