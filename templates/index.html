@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Air Quality Monitoring</title>
+    <link rel="stylesheet" href="../static/styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -10,25 +11,23 @@
         /** script */
     </script>
     <style type="text/tailwindcss">
-        @theme {
-            --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif;
-            --font-mono: Menlo, Monaco, Consolas, ui-monospace;
-        }
-        h1 {
-            @apply text-3xl font-bold;
+        a {
+            @apply text-blue-500 hover:underline
         }
     </style>
 </head>
 
-<body class="p-4">
+<body>
     <header>
         <h1>Air Quality Monitoring</h1>
     </header>
-    <h2>To get started, click on one of the links below:</h2>
+    <h2>To get started, visit <a href="/docs">the docs interface</a></h2>
+    <h2>Or alternatively, navigate to one of the links below:</h2>
     <ul class="list-inside list-disc">
-        <li>add an observation point</li>
-        <li>delete an observation point</li>
-        <li>(for sensors) send a tick of data</li>
+        <li><a href="/add_point">add_point</a>: add an observation point</li>
+        <li><a href="/delete_point">delete_point</a>: delete an observation point</li>
+        <li><a href="/send_data">send_data</a>: (for sensors) send a tick of data</li>
+        <li><b>/points/{device_id}</b>: get air information for specified device_id</li>
     </ul>
 </body>
 
