@@ -54,7 +54,7 @@ def get_point(request: Request, device_id: int):
     # TODO: get from database, then substitute parameters to template with actual data
 
     return templates.TemplateResponse(
-        name="air_data.html",
+        name="airData.html",
         context={
             "request": request,
             "device_id": device_id,
