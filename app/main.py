@@ -44,16 +44,25 @@ def delete_point(point_id: int):
 
 
 @app.get("/points/{device_id}")
-def get_point(device_id: int):
+def get_point(request: Request, device_id: int):
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
     """
     ...
 
+    # TODO: get from database, then substitute parameters to template with actual data
+
     return templates.TemplateResponse(
-        name="index.html",
-        context={"device_id": device_id, }
+        name="air_data.html",
+        context={
+            "request": request,
+            "device_id": device_id,
+            "location_name": "Melchor Hall, UP Diliman",
+            "latitude": 6.0,
+            "longitude": 9.0,
+            "status": "BAAAAAAAD",
+            }
         )
 
 @app.post("send_data")
