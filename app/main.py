@@ -8,7 +8,7 @@ from database import *
 
 
 app = FastAPI()
-app.mount("/assets", StaticFiles(directory="../assets"), name="assets")
+app.mount("/static", StaticFiles(directory="../static"), name="static")
 
 templates = Jinja2Templates(directory="../templates")
 
@@ -55,3 +55,12 @@ def get_point(device_id: int):
         name="index.html",
         context={"device_id": device_id, }
         )
+
+@app.post("send_data")
+def send_data(message: Message):
+    """
+    For sensors; Send tick of data to server
+    """
+    ...
+
+    return True
