@@ -1,20 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Get air quality information</title>
-    <link rel="stylesheet" href="../static/styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+{% extends "base.html" %}
+{% block title %}Air Quality Data{% endblock %}
+
+{% block script%}
     <script lang="ts">
         /** script */
     </script>
+{% endblock %}
+
+{% block style%}
     <style type="text/tailwindcss">
         
     </style>
-</head>
-<body>
+{% endblock %}
+
+{% block body%}
     <h1>Information at Sensor # {{ device_id }}</h1>
     <ul class="list-inside list-disc">
         <li>device ID: {{ device_id }} </li>
@@ -24,5 +23,4 @@
         <li>gas value: ??? </li>
         <li>PM concentration value: ??? </li>
     </ul>
-</body>
-</html>
+{% endblock %}
