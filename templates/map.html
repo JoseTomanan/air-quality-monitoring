@@ -1,5 +1,5 @@
 {% extends "_base.html" %}
-{% block title %}Add observation point{% endblock %}
+{% block title %}Map of sensor instances{% endblock %}
 
 {% block script%}
     <!-- Leaflet -->
@@ -30,7 +30,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Add a new observation point</h1>
+    <h1>Map of sensor instances</h1>
     <script lang="ts">
     document.addEventListener('DOMContentLoaded', async function() {
         var map = L.map('map', {

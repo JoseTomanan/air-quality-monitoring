@@ -74,7 +74,22 @@ def add_point(point: ObservationPointAdd):
     """
     For adding new observation points
     """
-    ...
+    # TODO: replace with something more elegant; 
+    #   (open SQLModel docs to see if meron doon)
+
+    new_device_id = max((point.device_id for point in fake_db_points), default=-1) + 1
+
+    appendable_point: ObservationPoint = ObservationPoint(
+        device_id=new_device_id,
+        location_name=point.location_name,
+        latitude=point.latitude,
+        longitude=point.longitude,
+        )
+    
+    global fake_db_points
+    fake_db_points.append(appendable_point)
+
+    return point
 
 
 @app.post("/delete_point")
@@ -82,14 +97,32 @@ def delete_point(device_id: int):
     """
     For deleting observation points
     """
-    ...
+    global fake_db_points
+    # TODO: replace when SQLModel is working
+    fake_db_points = [point for point in fake_db_points if (point.device_id != device_id)]
+
+    return fake_db_points
 
 
 @app.post("/send_data")
-def send_air_data(message: AirDataSend):
+def send_air_data(data: AirDataSend):
     """
     For sensors; Send (a tick of) air data information to server
     """
-    ...
+    # TODO: replace with something more elegant; 
+    #   (open SQLModel docs to see if meron doon)
+    
+    appendable_data: AirData = AirData(
+        device_id=data.device_id,
+        sequence=data.sequence,
+        timestamp=data.timestamp,
+        gas_value=data.gas_value,
+        pm1_0=data.pm1_0,
+        pm2_5=data.pm2_5,
+        pm10_0=data.pm10_0,
+        )
 
-    return True
+    global fake_db_messages
+    fake_db_messages.append(appendable_data)
+
+    return data
