@@ -70,28 +70,25 @@ def get_air_data(request: Request, device_id: int):
 
 
 @app.post("/add_point")
-def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)):
+def add_point(point: ObservationPointAdd):
     """
     For adding new observation points
     """
-    # TODO: replace with something more elegant; 
-    #   (open SQLModel docs to see if meron doon)
-
-    global fake_db_points
-
-    new_device_id = max((point.device_id for point in fake_db_points), default=0) + 1
+    new_device_id = max(*get_all_device_ids(), -1) + 1
 
     appendable_point: ObservationPoint = ObservationPoint(
         device_id=new_device_id,
-        location_name=location_name,
-        latitude=latitude,
-        longitude=longitude,
+        location_name=point.location_name,
+        latitude=point.latitude,
+        longitude=point.longitude,
         )
     
-    fake_db_points.append(appendable_point)
+    add_new_point(appendable_point.device_id,
+              appendable_point.location_name,
+              appendable_point.latitude,
+              appendable_point.longitude)
 
-    print("--> CURRENT DB:", fake_db_points)
-    return appendable_point
+    return point # probably return device id? para ma-enter when we want to find a point later
 
 
 @app.post("/delete_point")
