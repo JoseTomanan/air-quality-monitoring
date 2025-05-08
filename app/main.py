@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from models import *
 from database import *
+from enums import *
 
 
 app = FastAPI()
@@ -34,17 +35,23 @@ def get_air_data(request: Request, device_id: int):
     """
     ...
 
-    # TODO: get from database, then substitute parameters to template with actual data
+    # TODO
+    # :get from database, then substitute parameters to template with actual data
+
+    latitude: float = 6.0
+    longitude: float = 9.0
+    location_name: str = "Melchor Hall, UP Diliman"
+    status: AirStatus = AirStatus.good
 
     return templates.TemplateResponse(
         name="getAirData.html",
         context={
             "request": request,
             "device_id": device_id,
-            "location_name": "Melchor Hall, UP Diliman",
-            "latitude": 6.0,
-            "longitude": 9.0,
-            "status": "BAAAAAAAD",
+            "location_name": location_name,
+            "latitude": latitude,
+            "longitude": longitude,
+            "status": status
             }
         )
 
