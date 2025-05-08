@@ -37,7 +37,7 @@ def get_air_data(request: Request, device_id: int):
     # TODO: get from database, then substitute parameters to template with actual data
 
     return templates.TemplateResponse(
-        name="airData.html",
+        name="getAirData.html",
         context={
             "request": request,
             "device_id": device_id,
