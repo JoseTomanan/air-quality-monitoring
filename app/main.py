@@ -77,6 +77,8 @@ def add_point(point: ObservationPointAdd):
     # TODO: replace with something more elegant; 
     #   (open SQLModel docs to see if meron doon)
 
+    global fake_db_points
+
     new_device_id = max((point.device_id for point in fake_db_points), default=-1) + 1
 
     appendable_point: ObservationPoint = ObservationPoint(
@@ -86,7 +88,7 @@ def add_point(point: ObservationPointAdd):
         longitude=point.longitude,
         )
     
-    global fake_db_points
+    
     fake_db_points.append(appendable_point)
 
     return point
