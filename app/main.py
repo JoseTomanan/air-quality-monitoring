@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from models import *
+from schemas import *
 from database import *
 from enums import *
 
@@ -14,7 +15,7 @@ app.mount("/static", StaticFiles(directory="../static"), name="static")
 templates = Jinja2Templates(directory="../templates")
 
 fake_db_points: list[ObservationPoint] = []
-fake_db_messages: list[Message] = []
+fake_db_messages: list[AirData] = []
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -56,7 +57,7 @@ def get_air_data(request: Request, device_id: int):
         )
 
 @app.post("/add_point")
-def add_point(point: ObservationPoint):
+def add_point(point: ObservationPointAdd):
     """
     For adding new observation points
     """
@@ -64,7 +65,7 @@ def add_point(point: ObservationPoint):
 
 
 @app.post("/delete_point")
-def delete_point(point_id: int):
+def delete_point(device_id: int):
     """
     For deleting observation points
     """
@@ -72,9 +73,9 @@ def delete_point(point_id: int):
 
 
 @app.post("/send_data")
-def send_data(message: Message):
+def send_air_data(message: AirDataSend):
     """
-    For sensors; Send tick of data to server
+    For sensors; Send (a tick of) air data information to server
     """
     ...
 
