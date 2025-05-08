@@ -28,6 +28,18 @@ async def root(request: Request):
         name="index.html"
         )
 
+
+@app.get("/map", response_class=HTMLResponse)
+async def open_map(request: Request):
+    """
+    Open map interface
+    """
+    return templates.TemplateResponse(
+        request=request,
+        name="map.html"
+        )
+
+
 @app.get("/points/{device_id}")
 def get_air_data(request: Request, device_id: int):
     """
@@ -55,6 +67,7 @@ def get_air_data(request: Request, device_id: int):
             "status": status
             }
         )
+
 
 @app.post("/add_point")
 def add_point(point: ObservationPointAdd):
