@@ -79,7 +79,7 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
 
     global fake_db_points
 
-    new_device_id = max((point.device_id for point in fake_db_points), default=-1) + 1
+    new_device_id = max((point.device_id for point in fake_db_points), default=0) + 1
 
     appendable_point: ObservationPoint = ObservationPoint(
         device_id=new_device_id,
