@@ -70,25 +70,27 @@ def get_air_data(request: Request, device_id: int):
 
 
 @app.post("/add_point")
-def add_point(point: ObservationPointAdd):
+def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)):
     """
     For adding new observation points
     """
-    new_device_id = max(*get_all_device_ids(), -1) + 1
+    new_device_id = max(*get_all_device_ids(), 0) + 1
 
     appendable_point: ObservationPoint = ObservationPoint(
         device_id=new_device_id,
-        location_name=point.location_name,
-        latitude=point.latitude,
-        longitude=point.longitude,
+        location_name=location_name,
+        latitude=latitude,
+        longitude=longitude,
         )
     
-    add_new_point(appendable_point.device_id,
-              appendable_point.location_name,
-              appendable_point.latitude,
-              appendable_point.longitude)
+    add_new_point(
+        appendable_point.device_id,
+        appendable_point.location_name,
+        appendable_point.latitude,
+        appendable_point.longitude
+        )
 
-    return point # probably return device id? para ma-enter when we want to find a point later
+    return appendable_point # probably return device id? para ma-enter when we want to find a point later
 
 
 @app.post("/delete_point")
