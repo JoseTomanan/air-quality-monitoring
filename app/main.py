@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -70,7 +70,7 @@ def get_air_data(request: Request, device_id: int):
 
 
 @app.post("/add_point")
-def add_point(point: ObservationPointAdd):
+def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)):
     """
     For adding new observation points
     """
@@ -83,15 +83,15 @@ def add_point(point: ObservationPointAdd):
 
     appendable_point: ObservationPoint = ObservationPoint(
         device_id=new_device_id,
-        location_name=point.location_name,
-        latitude=point.latitude,
-        longitude=point.longitude,
+        location_name=location_name,
+        latitude=latitude,
+        longitude=longitude,
         )
-    
     
     fake_db_points.append(appendable_point)
 
-    return point
+    print("--> CURRENT DB:", fake_db_points)
+    return appendable_point
 
 
 @app.post("/delete_point")
@@ -113,7 +113,7 @@ def send_air_data(data: AirDataSend):
     """
     # TODO: replace with something more elegant; 
     #   (open SQLModel docs to see if meron doon)
-    
+
     appendable_data: AirData = AirData(
         device_id=data.device_id,
         sequence=data.sequence,
