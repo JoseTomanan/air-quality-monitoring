@@ -12,7 +12,7 @@ class ObservationPoint(SQLModel, table=True):
     latitude: float = Field()
     longitude: float = Field()
 
-class Message(SQLModel, table="True"):
+class Message(SQLModel, table=True):
     """
     Data type of message passed by microcontroller
     """
