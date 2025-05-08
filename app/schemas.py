@@ -29,13 +29,3 @@ class AirDataSend(SQLModel):
     pm1_0: int
     pm2_5: int
     pm10_0: int
-
-class AirDataGet(SQLModel):
-    """
-    Response format for get_air_data()
-    """
-    device_id: int
-    location_name: str
-    latitude: float
-    longitude: float
-    status: AirStatus
