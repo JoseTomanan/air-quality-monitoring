@@ -10,13 +10,9 @@ engine = create_engine(sqlite_url)
 SQLModel.metadata.create_all(engine)
 print("Database tables created successfully")
 
-def add_new_point(new_device_id, new_location_name, new_latitude, new_longitude):
+def add_new_point(point: ObservationPoint):
     with Session(engine) as session:
-        add_this = ObservationPoint(device_id = new_device_id,
-                                    location_name = new_location_name,
-                                    latitude = new_latitude,
-                                    longitude = new_longitude)
-        session.add(add_this)
+        session.add(point)
         session.commit()
     print("New point successfully added.")
 

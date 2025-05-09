@@ -83,14 +83,9 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
         longitude=longitude,
         )
     
-    add_new_point(
-        appendable_point.device_id,
-        appendable_point.location_name,
-        appendable_point.latitude,
-        appendable_point.longitude
-        )
+    add_new_point(appendable_point)
 
-    return appendable_point # probably return device id? para ma-enter when we want to find a point later
+    return appendable_point
 
 
 @app.post("/delete_point")
