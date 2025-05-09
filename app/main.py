@@ -19,7 +19,7 @@ fake_db_messages: list[AirData] = []
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root(request: Request):
+async def root(request: Request) -> HTMLResponse:
     """
     Render homepage
     """
@@ -30,7 +30,7 @@ async def root(request: Request):
 
 
 @app.get("/map", response_class=HTMLResponse)
-async def open_map(request: Request):
+async def open_map(request: Request) -> HTMLResponse:
     """
     Open map interface
     """
@@ -41,7 +41,7 @@ async def open_map(request: Request):
 
 
 @app.get("/points/{device_id}")
-def get_air_data(request: Request, device_id: int):
+def get_air_data(request: Request, device_id: int) -> HTMLResponse:
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
@@ -70,7 +70,7 @@ def get_air_data(request: Request, device_id: int):
 
 
 @app.post("/add_point")
-def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)):
+def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)) -> ObservationPoint:
     """
     For adding new observation points
     """
@@ -106,17 +106,19 @@ def delete_point(device_id: int):
 
 
 @app.post("/send_data")
-def send_air_data(data: AirDataSend):
+def send_air_data(data: AirDataSend) -> AirData:
     """
     For sensors; Send (a tick of) air data information to server
     """
     # TODO: replace with something more elegant; 
     #   (open SQLModel docs to see if meron doon)
 
+    new_timestamp: datetime = datetime.now()
+
     appendable_data: AirData = AirData(
         device_id=data.device_id,
         sequence=data.sequence,
-        timestamp=data.timestamp,
+        timestamp=new_timestamp,
         gas_value=data.gas_value,
         pm1_0=data.pm1_0,
         pm2_5=data.pm2_5,
@@ -126,4 +128,4 @@ def send_air_data(data: AirDataSend):
     global fake_db_messages
     fake_db_messages.append(appendable_data)
 
-    return data
+    return appendable_data
