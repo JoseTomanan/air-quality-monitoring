@@ -24,7 +24,6 @@ class AirDataSend(SQLModel):
     """
     device_id: int
     sequence: int
-    timestamp: datetime
     gas_value: int
     pm1_0: int
     pm2_5: int
