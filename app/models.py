@@ -6,7 +6,7 @@ from enums import *
 
 class ObservationPoint(SQLModel, table=True):
     """
-    Construct for image being passed
+    Table for sensor/microcontroller instances
     """
     device_id: int = Field(primary_key=True)
     location_name: str = Field(index=True, nullable=True)
@@ -15,7 +15,7 @@ class ObservationPoint(SQLModel, table=True):
 
 class AirData(SQLModel, table=True):
     """
-    Data type of message passed by microcontroller
+    Table for stored air data ticks
     """
     device_id: int = Field(primary_key=True)
     sequence: int = Field(primary_key=True)
