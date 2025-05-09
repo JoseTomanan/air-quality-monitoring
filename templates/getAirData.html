@@ -19,9 +19,9 @@
         <li>device ID: {{ device_id }} </li>
         <li>location name: {{ location_name }}</li>
         <li>coordinates: ({{ latitude }}, {{ longitude }})</li>
-        <li>air quality status: {{ status }}</li>
-        <li>gas value: ??? </li>
-        <li>PM concentration value: ??? </li>
+        <li>air status: {{ status|upper }}</li>
+        <li>gas concentration: {{ gas_concentration }} </li>
+        <li>particle concentration: {{ particle_concentration }} </li>
     </ul>
     <button
         id="reload"

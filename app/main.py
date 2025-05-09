@@ -54,7 +54,11 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
     latitude: float = 6.0
     longitude: float = 9.0
     location_name: str = "Melchor Hall, UP Diliman"
+
     status: AirStatus = AirStatus.good
+
+    gas_concentration: float = 66.99
+    particle_concentration: float = 69.69
 
     return templates.TemplateResponse(
         name="getAirData.html",
@@ -64,7 +68,9 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
             "location_name": location_name,
             "latitude": latitude,
             "longitude": longitude,
-            "status": status
+            "status": status,
+            "gas_concentration": gas_concentration,
+            "particle_concentration": particle_concentration,
             }
         )
 
