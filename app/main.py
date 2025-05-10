@@ -29,7 +29,7 @@ fake_db_messages: list[AirData] = []
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root(request: Request) -> HTMLResponse:
+async def root(request: Request):
     """
     Render homepage
     """
@@ -40,7 +40,7 @@ async def root(request: Request) -> HTMLResponse:
 
 
 @app.get("/map", response_class=HTMLResponse)
-async def open_map(request: Request) -> HTMLResponse:
+async def open_map(request: Request):
     """
     Open map interface
     """
@@ -51,7 +51,7 @@ async def open_map(request: Request) -> HTMLResponse:
 
 
 @app.get("/points/{device_id}")
-def get_air_data(request: Request, device_id: int) -> HTMLResponse:
+def get_air_data(request: Request, device_id: int):
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
@@ -86,7 +86,7 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
 
 
 @app.post("/add_point")
-def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)) -> ObservationPoint:
+def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)):
     """
     For adding new observation points
     """
