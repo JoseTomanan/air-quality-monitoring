@@ -80,7 +80,7 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
     """
     For adding new observation points
     """
-    new_device_id = max(*get_all_device_ids(), 0) + 1
+    new_device_id = max((*get_all_device_ids(), 0)) + 1
 
     appendable_point: ObservationPoint = ObservationPoint(
         device_id=new_device_id,
@@ -89,6 +89,7 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
         longitude=longitude,
         )
     
+    # print(f"NEW POINT:{appendable_point}")
     add_new_point(appendable_point)
 
     return appendable_point
