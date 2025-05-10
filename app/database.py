@@ -7,8 +7,12 @@ sqlite_url = f"sqlite:///{sqlite_file_name}"
 
 engine = create_engine(sqlite_url)
 
-SQLModel.metadata.create_all(engine)
-print("Database tables created successfully")
+def create_db_and_tables():
+    """
+    Docs: https://fastapi.tiangolo.com/az/advanced/events/#lifespan-function
+    """
+    SQLModel.metadata.create_all(engine)
+    print("Database tables created successfully")
 
 
 def add_new_point(point: ObservationPoint):

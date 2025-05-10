@@ -2,11 +2,21 @@ from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from contextlib import asynccontextmanager
 
 from models import *
 from schemas import *
 from database import *
 from enums import *
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Docs: https://fastapi.tiangolo.com/az/advanced/events/#lifespan-function
+    """
+    create_db_and_tables()
+    yield
 
 
 app = FastAPI()
@@ -89,7 +99,7 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
         longitude=longitude,
         )
     
-    # print(f"NEW POINT:{appendable_point}")
+    print(f"NEW POINT:{appendable_point}")
     add_new_point(appendable_point)
 
     return appendable_point
