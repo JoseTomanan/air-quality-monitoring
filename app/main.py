@@ -57,8 +57,8 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
 
     status: AirStatus = AirStatus.good
 
-    gas_concentration: float = 66.99
-    particle_concentration: float = 69.69
+    gas_conc: float = 66.99
+    particle_conc: float = 69.69
 
     return templates.TemplateResponse(
         name="getAirData.html",
@@ -69,8 +69,8 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
             "latitude": latitude,
             "longitude": longitude,
             "status": status,
-            "gas_concentration": gas_concentration,
-            "particle_concentration": particle_concentration,
+            "gas_conc": gas_conc,
+            "particle_conc": particle_conc,
             }
         )
 
