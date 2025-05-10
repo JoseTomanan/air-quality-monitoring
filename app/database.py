@@ -21,3 +21,22 @@ def get_all_device_ids():
         query = select(ObservationPoint.device_id)
         all_device_ids = session.exec(query).all()
         return all_device_ids
+   
+
+def delete_point_in_db(device_id: int):
+    """
+    DB-facing function on deleting observation points inside DB
+    """
+    with Session(engine) as session:
+        query = select(ObservationPoint).where(ObservationPoint.device_id == device_id)
+        deletable_point = session.exec(query).first()
+        
+        if deletable_point:
+            session.delete(deletable_point)
+            session.commit()
+            print(f"Device {device_id} successfully deleted.")
+            return True
+        
+        else:
+            print(f"Device {device_id} not found.")
+            return False

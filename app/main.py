@@ -99,11 +99,9 @@ def delete_point(device_id: int):
     """
     For deleting observation points
     """
-    global fake_db_points
-    # TODO: replace when SQLModel is working
-    fake_db_points = [point for point in fake_db_points if (point.device_id != device_id)]
+    result = delete_point_in_db(device_id)
 
-    return fake_db_points
+    return result
 
 
 @app.post("/send_data")
