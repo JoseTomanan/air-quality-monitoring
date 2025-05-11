@@ -1,89 +1,87 @@
-    {% extends "_base.html" %}
-    {% block title %}Map of sensor instances{% endblock %}
+{% extends "_base.html" %}
+{% block title %}Map of sensor instances{% endblock %}
 
-    {% block script%}
-        <!-- Leaflet -->
-        <script
-            src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin="">
-        </script>
+{% block script%}
+    <!-- Leaflet -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="">
+    </script>
 
-        <!-- Leaflet Heat -->
-        <script
-            src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js">
-        </script>
+    <!-- Leaflet Heat -->
+    <script
+        src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js">
+    </script>
 
-        <!-- Leaflet Marker Cluster -->
-        <script
-            src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js">
-        </script>
+    <!-- Leaflet Marker Cluster -->
+    <script
+        src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js">
+    </script>
 
-        <!-- Leaflet List -->
-        <script
-            src="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.src.js">
-        </script>
+    <!-- Leaflet List -->
+    <script
+        src="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.src.js">
+    </script>
 
-        <!-- Loadmap script -->
-        <script 
-            type="module"
-            src="{{ url_for('static', path='js/loadMap.js') }}">
-        </script>
+    <!-- Loadmap script -->
+    <script 
+        type="module"
+        src="{{ url_for('static', path='js/loadMap.js') }}">
+    </script>
 
-        <!-- Fetch points script -->
-        <script 
-            type="module" src="{{ url_for('static', path='js/fetchPoints.js') }}">
-        </script>
+    <!-- Fetch points script -->
+    <script 
+        type="module" src="{{ url_for('static', path='js/fetchPoints.js') }}">
+    </script>
 
-        <script lang="ts">
-        </script>
-    {% endblock %}
+    <script lang="ts">
+    </script>
+{% endblock %}
 
-    {% block style %}
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.css"></link>
-        <style type="text/tailwindcss">
-            /*test*/
-        </style>
-    {% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.css"></link>
+    <style type="text/tailwindcss">
+        /*test*/
+    </style>
+{% endblock %}
 
-    {% block body %}
-        <h1>Map of sensor instances</h1>
-        
-        <!-- Map container -->
-        <div id="map" style="height: 500px;"></div>
+{% block body %}
+    <h1>Map of sensor instances</h1>
+    <div id="map" style="height: 500px;"></div>
 
-        <form id="information" hx-post="/add_point" hx-swap="afterend">
-            <input
-                type="text"
-                name="location_name"
-                placeholder="Location name..."
-                required
-                />
-            <br>
-            <input
-                type="number"
-                name="latitude"
-                placeholder="Latitude..."
-                required
-                />
-            <br>
-            <input
-                type="number"
-                name="longitude"
-                placeholder="Longitude..."
-                required
-                />
-            <br>
-            <button
-                class="text-blue-500 border border-blue-500 px-2 rounded hover:underline"
-                type="submit"
-            >Add point</button>
-        </form>
+    <form id="information" hx-post="/add_point" hx-swap="afterend">
+        <input
+            type="text"
+            name="location_name"
+            placeholder="Location name..."
+            required
+            />
+        <br>
+        <input
+            type="number"
+            name="latitude"
+            placeholder="Latitude..."
+            required
+            />
+        <br>
+        <input
+            type="number"
+            name="longitude"
+            placeholder="Longitude..."
+            required
+            />
+        <br>
+        <button
+            class="text-blue-500 border border-blue-500 px-2 rounded hover:underline"
+            type="submit"
+        >Add point</button>
+    </form>
 
-        <!-- List of all added markers -->
-        <h3>Added Markers:</h3>
-        <div id="markerList"></div>
-    {% endblock %}
+    <!-- List of all added markers -->
+    <h3>Added Markers:</h3>
+    <div id="markerList"></div>
+{% endblock %}
