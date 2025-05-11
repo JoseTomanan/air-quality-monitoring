@@ -45,7 +45,9 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.css"></link>
     <style type="text/tailwindcss">
-        /*test*/
+        h3 {
+            @apply font-bold text-xl
+        }
     </style>
 {% endblock %}
 
@@ -53,7 +55,7 @@
     <h1>Map of sensor instances</h1>
     <div id="map" style="height: 500px;"></div>
 
-    <form id="information" hx-post="/add_point" hx-swap="afterend">
+    <form id="information" hx-post="/add_point" hx-swap="innerHTML" hx-target="markerList">
         <input
             type="text"
             name="location_name"
@@ -81,7 +83,6 @@
         >Add point</button>
     </form>
 
-    <!-- List of all added markers -->
     <h3>Added Markers:</h3>
     <div id="markerList"></div>
 {% endblock %}
