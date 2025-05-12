@@ -86,12 +86,14 @@ def get_air_data(request: Request, device_id: int):
         )
 
 
-@app.get("/points", response_class=JSONResponse)
+@app.get("/points")
 def get_all_points():
     """
     Get all observation points
     """
-    return get_all_points_from_db()
+    all_device_id = get_all_device_ids()
+
+    return [get_point_info(device_id) for device_id in all_device_id]
 
 
 @app.post("/add_point")
