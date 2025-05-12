@@ -24,7 +24,16 @@
         src="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.src.js">
     </script>
 
-    <script lang="ts">
+    <!-- Loadmap script -->
+    <script 
+        type="module"
+        src="{{ url_for('static', path='js/loadMap.js') }}">
+    </script>
+
+    <!-- Fetch points script -->
+    <script 
+        type="module"
+        src="{{ url_for('static', path='js/fetchPoints.js') }}">
     </script>
 {% endblock %}
 
@@ -40,16 +49,7 @@
 
 {% block body %}
     <h1>Map of sensor instances</h1>
-    <script lang="ts">
-    document.addEventListener('DOMContentLoaded', async function() {
-        var map = L.map('map', {
-            center: [14.650983264532163, 121.06718461639298],
-            zoom: 16
-        });
-
-        // dean take the wheel
-    });
-    </script>
+    <div id="map" style="height: 500px;"></div>
 
     <form id="information" hx-post="/add_point" hx-swap="afterend">
         <input
@@ -78,4 +78,8 @@
             type="submit"
         >Add point</button>
     </form>
+
+    <!-- List of all added markers -->
+    <h3>Added Markers:</h3>
+    <div id="markerList"></div>
 {% endblock %}

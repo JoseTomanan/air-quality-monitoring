@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 
 from models import *
-from schemas import *
+from .schemas import *
 from database import *
 from enums import *
 
@@ -49,8 +49,10 @@ async def open_map(request: Request):
         )
 
 
+
 @app.get("/points/{device_id}")
 def get_air_data(request: Request, device_id: int):
+
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
@@ -82,6 +84,14 @@ def get_air_data(request: Request, device_id: int):
             "particle_conc": particle_conc,
             }
         )
+
+
+@app.get("/points", response_class=JSONResponse)
+def get_all_points():
+    """
+    Get all observation points
+    """
+    return get_all_points_from_db()
 
 
 @app.post("/add_point")

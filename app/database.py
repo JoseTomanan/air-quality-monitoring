@@ -31,7 +31,6 @@ def get_all_device_ids():
         query = select(ObservationPoint.device_id)
         all_device_ids = session.exec(query).all()
         return all_device_ids
-   
 
 def delete_point_in_db(device_id: int):
     """
