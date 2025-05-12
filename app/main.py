@@ -60,7 +60,7 @@ def get_air_data(request: Request, device_id: int):
     ...
 
     # TODO
-    # :get from database, then substitute parameters to template with actual data
+    # : get from database, then substitute parameters to template with actual data
 
     latitude: float = 6.0
     longitude: float = 9.0
@@ -131,8 +131,10 @@ def send_air_data(data: AirDataSend) -> AirData:
     """
     For sensors; Send (a tick of) air data information to server
     """
-    # TODO: replace with something more elegant; 
-    #   (open SQLModel docs to see if meron doon)
+    ...
+
+    # TODO:
+    # : replace with actual DB interaction logic
 
     new_timestamp: datetime = datetime.now()
 
