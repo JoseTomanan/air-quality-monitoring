@@ -59,3 +59,10 @@ def delete_point_in_db(device_id: int):
         else:
             print(f"Device {device_id} not found.")
             return False
+
+
+def update_air_data(data: AirData):
+    """
+    DB-facing function for receiving air data information
+    """
+    ...
