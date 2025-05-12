@@ -75,6 +75,14 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
         )
 
 
+@app.get("/points")
+def get_all_points() -> list[ObservationPoint]:
+    """
+    Get all observation points
+    """
+    ...
+
+
 @app.post("/add_point")
 def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)) -> ObservationPoint:
     """
