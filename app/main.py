@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
@@ -40,7 +40,7 @@ async def open_map(request: Request) -> HTMLResponse:
         )
 
 
-@app.get("/points/{device_id}")
+@app.get("/points/{device_id}", response_class=HTMLResponse)
 def get_air_data(request: Request, device_id: int) -> HTMLResponse:
     """
     Given location ID, return corresponding observation point 
@@ -75,12 +75,12 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
         )
 
 
-@app.get("/points")
-def get_all_points() -> list[ObservationPoint]:
+@app.get("/points", response_class=JSONResponse)
+def get_all_points():
     """
     Get all observation points
     """
-    ...
+    return get_all_points_from_db()
 
 
 @app.post("/add_point")
