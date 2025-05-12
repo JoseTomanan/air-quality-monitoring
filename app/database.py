@@ -17,6 +17,7 @@ def create_db_and_tables():
 
 def add_new_point(point: ObservationPoint):
     """
+    DB-facing function on pushing new point
     """
     with Session(engine) as session:
         session.add(point)
@@ -26,11 +27,13 @@ def add_new_point(point: ObservationPoint):
 
 def get_all_device_ids():
     """
+    DB-facing function on getting all device_id from observation points
     """
     with Session(engine) as session:
         query = select(ObservationPoint.device_id)
         all_device_ids = session.exec(query).all()
         return all_device_ids
+
 
 def delete_point_in_db(device_id: int):
     """
