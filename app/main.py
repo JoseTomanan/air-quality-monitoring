@@ -122,9 +122,7 @@ def delete_point(device_id: int):
     """
     For deleting observation points
     """
-    result = delete_point_in_db(device_id)
-
-    return result
+    return delete_point_in_db(device_id)
 
 
 @app.post("/send_data")
