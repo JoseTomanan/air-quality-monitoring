@@ -8,6 +8,8 @@ from models import *
 from .schemas import *
 from database import *
 from enums import *
+from services.admin import *
+from services.sensor import *
 
 
 @asynccontextmanager
@@ -65,11 +67,10 @@ def get_air_data(request: Request, device_id: int):
     latitude: float = 6.0
     longitude: float = 9.0
     location_name: str = "Melchor Hall, UP Diliman"
-
-    status: AirStatus = AirStatus.good
-
     gas_conc: float = 66.99
     particle_conc: float = 69.69
+
+    status: AirStatus = compute_air_status(gas_conc, particle_conc)
 
     return templates.TemplateResponse(
         name="getAirData.html",
