@@ -21,3 +21,13 @@ def get_all_device_ids():
         query = select(ObservationPoint.device_id)
         all_device_ids = session.exec(query).all()
         return all_device_ids
+
+
+def get_all_points_from_db():
+    """
+    Get all observation points
+    """
+    with Session(engine) as session:
+        query = select(ObservationPoint)
+        all_points = session.exec(query).all()
+        return all_points
