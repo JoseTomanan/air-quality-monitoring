@@ -1,25 +1,34 @@
 from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from contextlib import asynccontextmanager
 
 from models import *
-from schemas import *
+from .schemas import *
 from database import *
 from enums import *
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Docs: https://fastapi.tiangolo.com/az/advanced/events/#lifespan-function
+    """
+    create_db_and_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="../static"), name="static")
 
 templates = Jinja2Templates(directory="../templates")
 
-fake_db_points: list[ObservationPoint] = []
 fake_db_messages: list[AirData] = []
 
 
 @app.get("/", response_class=HTMLResponse)
-async def root(request: Request) -> HTMLResponse:
+async def root(request: Request):
     """
     Render homepage
     """
@@ -30,7 +39,7 @@ async def root(request: Request) -> HTMLResponse:
 
 
 @app.get("/map", response_class=HTMLResponse)
-async def open_map(request: Request) -> HTMLResponse:
+async def open_map(request: Request):
     """
     Open map interface
     """
@@ -40,8 +49,10 @@ async def open_map(request: Request) -> HTMLResponse:
         )
 
 
+
 @app.get("/points/{device_id}")
-def get_air_data(request: Request, device_id: int) -> HTMLResponse:
+def get_air_data(request: Request, device_id: int):
+
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
@@ -75,8 +86,16 @@ def get_air_data(request: Request, device_id: int) -> HTMLResponse:
         )
 
 
+@app.get("/points", response_class=JSONResponse)
+def get_all_points():
+    """
+    Get all observation points
+    """
+    return get_all_points_from_db()
+
+
 @app.post("/add_point")
-def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)) -> ObservationPoint:
+def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude: float=Form(...)):
     """
     For adding new observation points
     """
@@ -89,7 +108,7 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
         longitude=longitude,
         )
     
-    # print(f"NEW POINT:{appendable_point}")
+    print(f"NEW POINT:{appendable_point}")
     add_new_point(appendable_point)
 
     return appendable_point
@@ -100,11 +119,9 @@ def delete_point(device_id: int):
     """
     For deleting observation points
     """
-    global fake_db_points
-    # TODO: replace when SQLModel is working
-    fake_db_points = [point for point in fake_db_points if (point.device_id != device_id)]
+    result = delete_point_in_db(device_id)
 
-    return fake_db_points
+    return result
 
 
 @app.post("/send_data")
