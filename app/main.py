@@ -51,10 +51,8 @@ async def open_map(request: Request):
         )
 
 
-
 @app.get("/points/{device_id}")
 def get_air_data(request: Request, device_id: int):
-
     """
     Given location ID, return corresponding observation point 
     Should include air quality related details
@@ -132,7 +130,7 @@ def send_air_data(data: AirDataSend) -> AirData:
     """
     ...
 
-    # TODO:
+    # TODO
     # : replace with actual DB interaction logic
 
     new_timestamp: datetime = datetime.now()
