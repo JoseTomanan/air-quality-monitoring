@@ -35,6 +35,13 @@ def get_all_device_ids():
         return all_device_ids
 
 
+def get_point_info(device_id: int):
+    """
+    DB-facing function on retrieving all point information, given device ID
+    """
+    ...
+
+
 def delete_point_in_db(device_id: int):
     """
     DB-facing function on deleting observation points inside DB
