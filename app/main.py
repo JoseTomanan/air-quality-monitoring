@@ -128,11 +128,6 @@ def send_air_data(data: AirDataSend) -> AirData:
     """
     For sensors; Send (a tick of) air data information to server
     """
-    ...
-
-    # TODO
-    # : replace with actual DB interaction logic
-
     new_timestamp: datetime = datetime.now()
 
     appendable_data: AirData = AirData(
@@ -145,7 +140,6 @@ def send_air_data(data: AirDataSend) -> AirData:
         pm10_0=data.pm10_0,
         )
 
-    global fake_db_messages
-    fake_db_messages.append(appendable_data)
+    update_air_data(appendable_data)
 
     return appendable_data
