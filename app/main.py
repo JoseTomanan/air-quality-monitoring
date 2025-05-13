@@ -60,7 +60,7 @@ def get_air_data(request: Request, device_id: int):
     point = get_point_info(device_id)
 
     if point is None:
-        return templates.TemplateResponse(request=request, name="404.html")
+        return templates.TemplateResponse(request=request, name="404.html", status_code=404)
 
     conc_values: tuple[float, float] = compute_conc_values()
     status: AirStatus = compute_air_status(*conc_values)
