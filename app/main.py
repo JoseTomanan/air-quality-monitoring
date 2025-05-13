@@ -57,12 +57,10 @@ def get_air_data(request: Request, device_id: int):
     Given location ID, return corresponding observation point 
     Should include air quality related details
     """
-    ...
-
     point = get_point_info(device_id)
 
-    # TODO if point == None meaning it doesnt exist: return 404 or smth as response 
-
+    if point is None:
+        return templates.TemplateResponse(name="404.html", context={"request": request})
 
     latitude: float = point.latitude
     longitude: float = point.longitude
