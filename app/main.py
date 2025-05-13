@@ -67,9 +67,9 @@ def get_air_data(request: Request, device_id: int):
     latitude: float = point.latitude
     longitude: float = point.longitude
     location_name: str = point.location_name
-    gas_conc: float = 66.99         # TODO update for actual computation
-    particle_conc: float = 69.69
 
+    gas_conc: float = compute_conc_values()[0]
+    particle_conc: float = compute_conc_values()[1]
     status: AirStatus = compute_air_status(gas_conc, particle_conc)
 
     return templates.TemplateResponse(
