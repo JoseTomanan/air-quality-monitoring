@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 
 from models import *
-from .schemas import *
+from schemas import *
 from database import *
 from enums import *
 from services.admin import *
