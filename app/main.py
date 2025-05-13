@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
 
 from models import *
-from .schemas import *
+from schemas import *
 from database import *
 from enums import *
 from services.admin import *
@@ -59,13 +59,15 @@ def get_air_data(request: Request, device_id: int):
     """
     ...
 
-    # TODO
-    # : get from database, then substitute parameters to template with actual data
+    point = get_point_info(device_id)
 
-    latitude: float = 6.0
-    longitude: float = 9.0
-    location_name: str = "Melchor Hall, UP Diliman"
-    gas_conc: float = 66.99
+    # TODO if point == None meaning it doesnt exist: return 404 or smth as response 
+
+
+    latitude: float = point.latitude
+    longitude: float = point.longitude
+    location_name: str = point.location_name
+    gas_conc: float = 66.99         # TODO update for actual computation
     particle_conc: float = 69.69
 
     status: AirStatus = compute_air_status(gas_conc, particle_conc)
