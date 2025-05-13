@@ -1,0 +1,24 @@
+{% extends "_base.html" %}
+{% block title %}404 Not Found{% endblock %}
+
+{% block script %}
+    <script lang="ts">
+        /** script */
+    </script>
+{% endblock %}
+
+{% block style %}
+    <style type="text/tailwindcss">
+        span.mono {
+            @apply font-mono;
+        }
+    </style>
+{% endblock %}
+
+{% block body%}
+    <h1>Oops!</h1>
+    <h3>
+        The page you were looking for is not found.<br>
+        If you are accessing link <span class="mono">/points</span>, double check if <span class="mono">device_id</span> is correct, or if it exists.
+    </h3>
+{% endblock %}
