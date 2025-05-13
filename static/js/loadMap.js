@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onclick="addMarkerFromClick()" 
             class="mt-2 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
             >
-            Add Marker Here
+            Add observation point here
             </button>
         </div>
         `)
@@ -43,9 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/**
+ * (TODO: add documentation)
+ */
 window.addMarkerFromClick = function () {
   if (lastClickedLatLng) {
-    const name = prompt("Enter a name for this marker:", "My Marker");
+    const name = prompt("Enter a name for this observation point:", "New observation point");
+
     if (name !== null) {
       const { lat, lng } = lastClickedLatLng;
       createMarker(lat, lng, name.trim());
@@ -54,6 +58,10 @@ window.addMarkerFromClick = function () {
   }
 };
 
+/**
+ * (TODO: add documentation)
+ * @param {number} id 
+ */
 window.deleteMarker = function (id) {
   const marker = markerMap[id];
   if (marker) {
@@ -66,10 +74,16 @@ window.deleteMarker = function (id) {
   }
 };
 
+/**
+ * Add observation point details to map
+ * @param {number} lat 
+ * @param {number} lng 
+ * @param {string} name 
+ */
 function createMarker(lat, lng, name) {
   const marker = L.marker([lat, lng]).addTo(map);
   const id = marker._leaflet_id;
-  const safeName = name || "Unnamed Marker";
+  const safeName = name || "Unnamed observation point";
 
   marker.bindPopup(`
     <strong>${safeName}</strong><br>
@@ -87,9 +101,20 @@ function createMarker(lat, lng, name) {
   addMarkerToList(id, lat, lng, safeName);
 }
 
+/**
+ * Append to local list (inside page) newly added observation point
+ * @param {number} id 
+ * @param {number} lat 
+ * @param {number} lng 
+ * @param {string} name 
+ */
 function addMarkerToList(id, lat, lng, name) {
+  // TODO
+  // : refactor to refetch points instead of only showing locally
+  
   const list = document.getElementById("markerList");
   const entry = document.createElement("div");
+
   entry.className = "marker-entry";
   entry.id = `marker-${id}`;
   entry.innerHTML = `
@@ -99,8 +124,9 @@ function addMarkerToList(id, lat, lng, name) {
     <button 
         onclick="deleteMarker(${id})" 
         class="mt-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
-    Delete Marker
+    Delete observation point
     </button>
   `;
+  
   list.appendChild(entry);
 }
