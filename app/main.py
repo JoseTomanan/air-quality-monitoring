@@ -62,10 +62,6 @@ def get_air_data(request: Request, device_id: int):
     if point is None:
         return templates.TemplateResponse(name="404.html", context={"request": request})
 
-    latitude: float = point.latitude
-    longitude: float = point.longitude
-    location_name: str = point.location_name
-
     gas_conc: float = compute_conc_values()[0]
     particle_conc: float = compute_conc_values()[1]
     status: AirStatus = compute_air_status(gas_conc, particle_conc)
@@ -75,9 +71,9 @@ def get_air_data(request: Request, device_id: int):
         context={
             "request": request,
             "device_id": device_id,
-            "location_name": location_name,
-            "latitude": latitude,
-            "longitude": longitude,
+            "location_name": point.location_name,
+            "latitude": point.latitude,
+            "longitude": point.longitude,
             "status": status,
             "gas_conc": gas_conc,
             "particle_conc": particle_conc,
