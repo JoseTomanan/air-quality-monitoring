@@ -21,3 +21,11 @@ def compute_air_status(gas_conc: float, particle_conc: float) -> AirStatus:
     return AirStatus.good
 
 
+def compute_conc_values() -> tuple[float, float]:
+    """
+    Fetch last 10 values from AirData;
+    Compute for mean of gas concentration, particle concentration
+    """
+    # TODO : define fetching logic; import database-related modules/libraries
+    # (or alternatively, dyt it would be more elegant to move this to databases.py ???)
+    ...
