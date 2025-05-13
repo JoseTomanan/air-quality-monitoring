@@ -28,4 +28,7 @@ def compute_conc_values() -> tuple[float, float]:
     """
     # TODO : define fetching logic; import database-related modules/libraries
     # (or alternatively, dyt it would be more elegant to move this to databases.py ???)
+    
     ...
+
+    return (0.6, 0.9)
