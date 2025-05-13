@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onclick="addMarkerFromClick()" 
             class="mt-2 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
             >
-            Add Marker Here
+            Add observation point here
             </button>
         </div>
         `)
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addMarkerFromClick = function () {
   if (lastClickedLatLng) {
-    const name = prompt("Enter a name for this marker:", "My Marker");
+    const name = prompt("Enter a name for this observation point:", "New observation point");
     if (name !== null) {
       const { lat, lng } = lastClickedLatLng;
       createMarker(lat, lng, name.trim());
@@ -99,7 +99,7 @@ function addMarkerToList(id, lat, lng, name) {
     <button 
         onclick="deleteMarker(${id})" 
         class="mt-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
-    Delete Marker
+    Delete observation point
     </button>
   `;
   list.appendChild(entry);
