@@ -60,7 +60,7 @@ def get_air_data(request: Request, device_id: int):
     point = get_point_info(device_id)
 
     if point is None:
-        return templates.TemplateResponse(name="404.html", context={"request": request})
+        return templates.TemplateResponse(request=request, name="404.html")
 
     gas_conc: float = compute_conc_values()[0]
     particle_conc: float = compute_conc_values()[1]
