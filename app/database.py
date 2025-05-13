@@ -42,12 +42,7 @@ def get_point_info(device_id: int):
     with Session(engine) as session:
         query = select(ObservationPoint).where(ObservationPoint.device_id == device_id)
         existing = session.exec(query).first()
-
-        if existing:
-            return existing
-        
-        else:
-            return None
+        return existing if existing else None
 
 
 def delete_point_in_db(device_id: int):
