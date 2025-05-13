@@ -6,3 +6,7 @@ export async function fetchPoints() {
   
   return response.json(); // Should be array of { name, lat, lng }
 }
+
+// TODO
+// : Populate map with fetched points
+// : can use createMarker for this?
