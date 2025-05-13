@@ -5,7 +5,7 @@ from enums import AirStatus
 
 def compute_air_status(gas_conc: float, particle_conc: float) -> AirStatus:
     """
-    Take x most recent entries and compute for air quality;
+    Take 10 most recent entries and compute for air quality;
     Done every time a user makes a request
     """
     # TODO : find research for actual interpretation of concentration values
