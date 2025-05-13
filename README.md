@@ -9,7 +9,7 @@ pip install -r requirements.txt
 
 ## To run the server:
 ```bash
-cd src
+cd app
 uvicorn main:app  # default
 uvicorn main:app --reload  # to enable hot reloading
 ```
