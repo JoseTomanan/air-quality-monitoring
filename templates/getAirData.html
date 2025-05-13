@@ -16,12 +16,30 @@
 {% block body%}
     <h1>Information at Sensor # {{ device_id }}</h1>
     <ul class="list-inside list-disc">
-        <li>device ID: {{ device_id }} </li>
-        <li>location name: {{ location_name }}</li>
-        <li>coordinates: ({{ latitude }}, {{ longitude }})</li>
-        <li>air status: {{ status|upper }}</li>
-        <li>gas concentration: {{ gas_conc }} </li>
-        <li>particle concentration: {{ particle_conc }} </li>
+        <li>Device ID:
+            <span id="device_id">{{ device_id }}</span>
+        </li>
+        
+        <li>Location name:
+            <span id="location_name">{{ location_name }}</span>
+        </li>
+
+        <li>Coordinates: 
+            <span id="latitude">{{ latitude }}</span>,
+            <span id="longitude">{{ longitude }}</span>
+        </li>
+        
+        <li>Air Status:
+            <span id="status">{{ status|upper }}</span>
+        </li>
+        
+        <li>Gas Concentration:
+            <span id="gas_conc">{{ gas_conc }}</span>
+        </li>
+        
+        <li>Particle Concentration:
+            <span id="particle_conc">{{ particle_conc }}</span>
+        </li>
     </ul>
     <button
         id="reload"
