@@ -1,3 +1,5 @@
+import { fetchPoints } from "./fetchPoints.js";
+
 let map;
 const markerMap = {};
 let lastClickedLatLng = null;
@@ -9,38 +11,56 @@ document.addEventListener('DOMContentLoaded', () => {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
 
+  // Populate the map with points using the createMarker function defined below
+  fetchPoints(map, createMarker);
+
   map.on('click', (e) => {
-    const { lat, lng } = e.latlng;
-    lastClickedLatLng = e.latlng;
-    L.popup()
-      .setLatLng(e.latlng)
-      .setContent(`
-        <div>
-            <p><strong>Clicked location:</strong></p>
-            <p>Latitude: ${lat.toFixed(4)}</p>
-            <p>Longitude: ${lng.toFixed(4)}</p>
-            <button 
-            onclick="addMarkerFromClick()" 
-            class="mt-2 px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-            >
-            Add observation point here
-            </button>
-        </div>
-        `)
-      .openOn(map);
+  const { lat, lng } = e.latlng;
+  lastClickedLatLng = e.latlng;
+
+  // Set values in the form
+  document.getElementById('form-lat').value = lat.toFixed(6);
+  document.getElementById('form-lng').value = lng.toFixed(6);
+
+  // Optional: show popup just for feedback
+  L.popup()
+    .setLatLng(e.latlng)
+    .setContent(`
+      <div>
+        <p>Selected:</p>
+        <p>Lat: ${lat.toFixed(4)}</p>
+        <p>Lng: ${lng.toFixed(4)}</p>
+        <p>→ Form fields updated below</p>
+      </div>
+    `)
+    .openOn(map);
   });
 
   document.getElementById('information').addEventListener('submit', (e) => {
-    const name = document.getElementById('form-name').value.trim();
-    const lat = parseFloat(document.getElementById('form-lat').value);
-    const lng = parseFloat(document.getElementById('form-lng').value);
+  const name = document.getElementById('form-name').value.trim();
+  const lat = parseFloat(document.getElementById('form-lat').value);
+  const lng = parseFloat(document.getElementById('form-lng').value);
 
-    if (!isNaN(lat) && !isNaN(lng)) {
-      createMarker(lat, lng, name);
-    }
+  if (!isNaN(lat) && !isNaN(lng)) {
+    createMarker(lat, lng, name);  // temporary marker without device_id
+  }
 
-    // Let HTMX handle form submission
-  });
+  // Clear form fields
+  document.getElementById('information').reset();
+
+  // Let HTMX handle actual POST to server
+
+  // Wait for HTMX to submit, then re-fetch points with real device_id
+  setTimeout(() => {
+    // Remove existing markers from map and sidebar
+    Object.values(markerMap).forEach(marker => map.removeLayer(marker));
+    Object.keys(markerMap).forEach(id => delete markerMap[id]);
+    document.getElementById("markerList").innerHTML = '';
+
+    // Re-fetch from server to get correct device_id
+    fetchPoints(map, createMarker);
+  }, 500); // small delay to allow server to store the point
+});
 });
 
 /**
@@ -62,13 +82,39 @@ window.addMarkerFromClick = function () {
  * (TODO: add documentation)
  * @param {number} id 
  */
-window.deleteMarker = function (id) {
-  const marker = markerMap[id];
+window.deleteMarker = async function (leafletId, deviceId) {
+  if (deviceId !== null) {
+    try {
+      const response = await fetch("/delete_point", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", // Set Content-Type to JSON
+        },
+        body: JSON.stringify({ device_id: deviceId }), // Send device_id as JSON
+      });
+
+      if (!response.ok) {
+        alert("Failed to delete from server.");
+        return;
+      }
+
+      // Optionally, show a success message
+      const data = await response.json();
+      alert(data.message);  // Example response from the server, like "Point successfully deleted."
+    } catch (err) {
+      console.error("Error deleting point:", err);
+      alert("Error deleting point.");
+      return;
+    }
+  }
+
+  // Remove locally
+  const marker = markerMap[leafletId];
   if (marker) {
     map.removeLayer(marker);
-    delete markerMap[id];
+    delete markerMap[leafletId];
   }
-  const entry = document.getElementById(`marker-${id}`);
+  const entry = document.getElementById(`marker-${leafletId}`);
   if (entry) {
     entry.remove();
   }
@@ -80,25 +126,26 @@ window.deleteMarker = function (id) {
  * @param {number} lng 
  * @param {string} name 
  */
-function createMarker(lat, lng, name) {
+function createMarker(lat, lng, name, deviceId = null) {
   const marker = L.marker([lat, lng]).addTo(map);
-  const id = marker._leaflet_id;
+  const leafletId = marker._leaflet_id;
   const safeName = name || "Unnamed observation point";
 
   marker.bindPopup(`
     <strong>${safeName}</strong><br>
     (${lat.toFixed(4)}, ${lng.toFixed(4)})<br>
+    ${deviceId ? `Device ID: ${deviceId}<br>` : ''}
     <button 
-        onclick="deleteMarker(${id})" 
+        onclick="deleteMarker(${leafletId}, ${deviceId})" 
         class="mt-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
     Delete Marker
     </button>
   `);
 
   marker.on('click', () => marker.openPopup());
-  markerMap[id] = marker;
+  markerMap[leafletId] = marker;
 
-  addMarkerToList(id, lat, lng, safeName);
+  addMarkerToList(leafletId, lat, lng, safeName, deviceId);
 }
 
 /**
@@ -108,25 +155,26 @@ function createMarker(lat, lng, name) {
  * @param {number} lng 
  * @param {string} name 
  */
-function addMarkerToList(id, lat, lng, name) {
-  // TODO
-  // : refactor to refetch points instead of only showing locally
-  
+function addMarkerToList(id, lat, lng, name, deviceId = null) {
   const list = document.getElementById("markerList");
   const entry = document.createElement("div");
 
   entry.className = "marker-entry";
   entry.id = `marker-${id}`;
+
+  const displayDeviceId = deviceId !== null ? deviceId : "(pending...)";
+
   entry.innerHTML = `
     <strong>${name}</strong><br>
+    Device ID: ${displayDeviceId}<br>
     Latitude: ${lat.toFixed(4)}<br>
     Longitude: ${lng.toFixed(4)}<br>
     <button 
-        onclick="deleteMarker(${id})" 
+        onclick="deleteMarker(${id}, ${deviceId})" 
         class="mt-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
     Delete observation point
     </button>
   `;
-  
+
   list.appendChild(entry);
 }

@@ -53,10 +53,11 @@
     <h1>Map of sensor instances</h1>
     <div id="map" style="height: 500px;"></div>
 
-    <form id="information" hx-post="/add_point" hx-swap="innerHTML" hx-target="markerList">
+    <form id="information" hx-post="/add_point" hx-swap="none">
         <input
             type="text"
             name="location_name"
+            id="form-name"
             placeholder="Location name..."
             required
             />
@@ -64,6 +65,8 @@
         <input
             type="number"
             name="latitude"
+            id="form-lat"
+            step="any"
             placeholder="Latitude..."
             required
             />
@@ -71,6 +74,8 @@
         <input
             type="number"
             name="longitude"
+            id="form-lng"
+            step="any"
             placeholder="Longitude..."
             required
             />

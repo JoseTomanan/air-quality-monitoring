@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from contextlib import asynccontextmanager
+from pydantic import BaseModel
 
 from models import *
 from schemas import *
@@ -20,6 +21,9 @@ async def lifespan(app: FastAPI):
     create_db_and_tables()
     yield
 
+# Define the Pydantic model for the request
+class DeviceIdRequest(BaseModel):
+    device_id: int
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="../static"), name="static")
@@ -107,15 +111,26 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
     print(f"NEW POINT:{appendable_point}")
     add_new_point(appendable_point)
 
-    return appendable_point
+    # Return the new point with device_id included
+    return {
+        "device_id": new_device_id,
+        "location_name": location_name,
+        "latitude": latitude,
+        "longitude": longitude
+    }
 
 
 @app.post("/delete_point")
-def delete_point(device_id: int):
+async def delete_point(request: DeviceIdRequest):
     """
-    For deleting observation points
+    Deletes a point by device_id.
     """
-    return delete_point_in_db(device_id)
+    device_id = request.device_id
+    success = delete_point_in_db(device_id)
+    if success:
+        return {"message": "Point successfully deleted."}
+    else:
+        raise HTTPException(status_code=404, detail="Point not found.")
 
 
 @app.post("/send_data")
