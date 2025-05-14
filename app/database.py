@@ -68,4 +68,12 @@ def update_air_data(data: AirData):
     """
     DB-facing function for receiving air data information
     """
-    ...
+    print(f"Inserting: device_id={data.device_id}, sequence={data.sequence}")
+    with Session(engine) as session:
+        existing = session.get(AirData, (data.device_id, data.sequence))
+        if existing:
+            print("Duplicate data detected, skipping insert.")
+            return
+        session.add(data)
+        session.commit()
+    print("New air data received.")
