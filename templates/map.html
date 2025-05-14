@@ -46,13 +46,16 @@
         h3 {
             @apply font-bold text-xl
         }
+        input {
+            @apply bg-gray-50 rounded px-2 ring ring-gray-200
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     <h1>Map of sensor instances</h1>
     <div id="map" style="height: 500px;"></div>
-
+    <br>
     <form id="information" hx-post="/add_point" hx-swap="none">
         <input
             type="text"
@@ -86,6 +89,7 @@
         >Add point</button>
     </form>
 
-    <h3>Added Markers:</h3>
+    <br>
+    <h3>List of observation points:</h3>
     <div id="markerList"></div>
 {% endblock %}
