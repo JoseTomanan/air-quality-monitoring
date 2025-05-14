@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -90,7 +90,6 @@ def get_all_points():
     Get all observation points
     """
     all_device_id = get_all_device_ids()
-
     return [get_point_info(device_id) for device_id in all_device_id]
 
 
@@ -127,6 +126,7 @@ async def delete_point(request: DeviceIdRequest):
     """
     device_id = request.device_id
     success = delete_point_in_db(device_id)
+
     if success:
         return {"message": "Point successfully deleted."}
     else:
