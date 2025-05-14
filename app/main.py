@@ -30,8 +30,6 @@ app.mount("/static", StaticFiles(directory="../static"), name="static")
 
 templates = Jinja2Templates(directory="../templates")
 
-fake_db_messages: list[AirData] = []
-
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
