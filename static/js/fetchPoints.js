@@ -15,7 +15,3 @@ export async function fetchPoints(map, createMarker) {
     createMarker(point.latitude, point.longitude, point.location_name, point.device_id);
   });
 }
-
-// TODO
-// : Populate map with fetched points
-// : can use createMarker for this?

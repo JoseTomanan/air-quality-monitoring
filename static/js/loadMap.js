@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <p>Selected:</p>
         <p>Lat: ${lat.toFixed(4)}</p>
         <p>Lng: ${lng.toFixed(4)}</p>
-        <p>→ Form fields updated below</p>
+        // <p>→ Form fields updated below</p>
       </div>
     `)
     .openOn(map);
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * (TODO: add documentation)
+ * DEPRECATED
  */
 window.addMarkerFromClick = function () {
   if (lastClickedLatLng) {
@@ -79,7 +79,7 @@ window.addMarkerFromClick = function () {
 };
 
 /**
- * (TODO: add documentation)
+ * Delete marker inside server
  * @param {number} id 
  */
 window.deleteMarker = async function (leafletId, deviceId) {
