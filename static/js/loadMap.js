@@ -165,15 +165,17 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
   const displayDeviceId = deviceId !== null ? deviceId : "(pending...)";
 
   entry.innerHTML = `
-    <strong>${name}</strong><br>
-    Device ID: ${displayDeviceId}<br>
-    Latitude: ${lat.toFixed(4)}<br>
-    Longitude: ${lng.toFixed(4)}<br>
-    <button 
-        onclick="deleteMarker(${id}, ${deviceId})" 
-        class="mt-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
-    Delete observation point
-    </button>
+    <div class="border border-gray-500 rounded px-4 py-2 my-2">
+      <span class="underline">${ name }</span><br>
+      Device ID: ${ displayDeviceId }<br>
+      Latitude: ${ lat.toFixed(4) }<br>
+      Longitude: ${ lng.toFixed(4) }<br>
+      <button 
+        onclick="deleteMarker(${ id }, ${ deviceId })"
+        class="mt-1 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+          Delete observation point
+      </button>
+    </div>
   `;
 
   list.appendChild(entry);
