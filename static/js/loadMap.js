@@ -137,8 +137,8 @@ function createMarker(lat, lng, name, deviceId = null) {
     ${deviceId ? `Device ID: ${deviceId}<br>` : ''}
     <button 
         onclick="deleteMarker(${leafletId}, ${deviceId})" 
-        class="mt-2 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
-    Delete Marker
+        class="mt-2 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+        Delete observation point
     </button>
   `);
 
