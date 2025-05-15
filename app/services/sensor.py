@@ -18,6 +18,9 @@ def compute_air_status(gas_conc: float, particle_conc: float) -> AirStatus:
         return AirStatus.very_unhealthy
     if some_fake_metric > 5:
         return AirStatus.unhealthy
+    if some_fake_metric > 3:
+        return AirStatus.moderate
+    
     return AirStatus.good
 
 
