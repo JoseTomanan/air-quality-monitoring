@@ -3,14 +3,14 @@ from models import AirData
 from enums import AirStatus
 
 
-def compute_air_status(gas_conc: float, particle_conc: float) -> AirStatus:
+def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: float) -> AirStatus:
     """
     Take 10 most recent entries and compute for air quality;
     Done every time a user makes a request
     """
     # TODO : find research for actual interpretation of concentration values
 
-    some_fake_metric = gas_conc * particle_conc
+    some_fake_metric = gas_conc + (pm1_0 * pm2_5 * pm10_0)
 
     if some_fake_metric > 10:
         return AirStatus.hazardous
