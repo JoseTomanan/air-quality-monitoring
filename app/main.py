@@ -67,7 +67,7 @@ def get_air_data(request: Request, device_id: int):
     gas_conc: float = compute_gas_conc()
     particle_conc: tuple[float, float, float] = compute_particle_conc()
 
-    status: AirStatus = compute_air_status(gas_conc, *particle_conc)
+    statuses: dict[str, AirStatus] = compute_air_status(gas_conc, *particle_conc)
 
     return templates.TemplateResponse(
         name="getAirData.html",
@@ -77,11 +77,10 @@ def get_air_data(request: Request, device_id: int):
             "location_name": point.location_name,
             "latitude": point.latitude,
             "longitude": point.longitude,
-            "status": status,
-            "gas_conc": gas_conc,
-            "pm1_0_conc": particle_conc[0],
-            "pm2_5_conc": particle_conc[1],
-            "pm10_0_conc": particle_conc[2],
+            "gas_conc": str(f"{gas_conc} ({statuses["gas_conc"]})"),
+            "pm1_0_conc": str(f"{particle_conc[0]} ({statuses["pm1_0"]})"),
+            "pm2_5_conc": str(f"{particle_conc[1]} ({statuses["pm2_5"]})"),
+            "pm10_0_conc": str(f"{particle_conc[2]} ({statuses["pm10_0"]})"),
             }
         )
 
