@@ -10,7 +10,15 @@ def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: floa
     """
     statuses: dict[str, AirStatus] = {}
 
-    PM2_5_STATUS = [
+    GAS_CONC_STATUS = [
+        (50.0, AirStatus.good),
+        (100.0, AirStatus.moderate),
+        (200.0, AirStatus.unhealthy),
+        (300.0, AirStatus.very_unhealthy),
+        (float('inf'), AirStatus.hazardous),
+        ]
+
+    PM1_0_2_5_STATUS = [
         (12.0, AirStatus.good),
         (35.4, AirStatus.moderate),
         (150.4, AirStatus.unhealthy),
@@ -26,7 +34,17 @@ def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: floa
         (float('inf'), AirStatus.hazardous),
         ]
 
-    for threshold, status in PM2_5_STATUS:
+    for threshold, status in GAS_CONC_STATUS:
+        if pm2_5 <= threshold:
+            statuses["gas_conc"] = status
+            break
+
+    for threshold, status in PM1_0_2_5_STATUS:
+        if pm1_0 <= threshold:
+            statuses["pm1_0"] = status
+            break
+
+    for threshold, status in PM1_0_2_5_STATUS:
         if pm2_5 <= threshold:
             statuses["pm2_5"] = status
             break
@@ -35,9 +53,6 @@ def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: floa
         if pm10_0 <= threshold:
             statuses["pm10_0"] = status
             break
-
-    statuses["gas_conc"] = AirStatus.moderate   # placeholder; TODO: replace
-    statuses["pm1_0"] = AirStatus.moderate      # placeholder; TODO: replace
 
     return statuses
 
