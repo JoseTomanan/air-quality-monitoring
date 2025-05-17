@@ -35,7 +35,7 @@ def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: floa
         ]
 
     for threshold, status in GAS_CONC_STATUS:
-        if pm2_5 <= threshold:
+        if gas_conc <= threshold:
             statuses["gas_conc"] = status
             break
 
