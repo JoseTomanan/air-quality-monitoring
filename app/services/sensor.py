@@ -3,25 +3,43 @@ from models import AirData
 from enums import AirStatus
 
 
-def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: float) -> AirStatus:
+def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: float) -> dict[str, AirStatus]:
     """
     Take 10 most recent entries and compute for air quality;
     Done every time a user makes a request
     """
-    # TODO : find research for actual interpretation of concentration values
+    statuses: dict[str, AirStatus] = {}
 
-    some_fake_metric = gas_conc + (pm1_0 * pm2_5 * pm10_0)
-
-    if some_fake_metric > 10:
-        return AirStatus.hazardous
-    if some_fake_metric > 7:
-        return AirStatus.very_unhealthy
-    if some_fake_metric > 5:
-        return AirStatus.unhealthy
-    if some_fake_metric > 3:
-        return AirStatus.moderate
+    PM2_5_STATUS = [
+        (12.0, AirStatus.good),
+        (35.4, AirStatus.moderate),
+        (150.4, AirStatus.unhealthy),
+        (250.4, AirStatus.very_unhealthy),
+        (float('inf'), AirStatus.hazardous),
+        ]
     
-    return AirStatus.good
+    PM10_0_STATUS = [
+        (54.0, AirStatus.good),
+        (150.4, AirStatus.moderate),
+        (650.4, AirStatus.unhealthy),
+        (1050.4, AirStatus.very_unhealthy),
+        (float('inf'), AirStatus.hazardous),
+        ]
+
+    for threshold, status in PM2_5_STATUS:
+        if pm2_5 <= threshold:
+            statuses["pm2_5"] = status
+            break
+
+    for threshold, status in PM10_0_STATUS:
+        if pm10_0 <= threshold:
+            statuses["pm10_0"] = status
+            break
+
+    statuses["gas_conc"] = AirStatus.moderate   # placeholder; TODO: replace
+    statuses["pm1_0"] = AirStatus.moderate      # placeholder; TODO: replace
+
+    return statuses
 
 
 def compute_gas_conc() -> float:
