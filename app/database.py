@@ -1,5 +1,6 @@
 from sqlmodel import SQLModel, create_engine, Session, select
 from models import *
+from statistics import mean
 
 
 sqlite_file_name = "database.db"
@@ -78,24 +79,45 @@ def update_air_data(data: AirData):
         session.commit()
     print("New air data received.")
 
-def compute_gas_conc() -> float:
+def compute_gas_conc(device_id: int) -> float:
     """
     Fetch last 10 values of gas_value from AirData;
     Compute for mean of gas concentration and return
     """
-    # TODO : define fetching logic; import database-related modules/libraries
-    # (or alternatively, dyt it would be more elegant to move this to databases.py ???)
-    ...
-    return 0.6
+    ten_rows = ten_recent(device_id)
+    
+    gas_values = [row.gas_value for row in ten_rows]
+
+    mean_gas_conc = mean(gas_values)
+
+    return mean_gas_conc
 
 
-def compute_particle_conc() -> tuple[float, float, float]:
+def compute_particle_conc(device_id: int) -> tuple[float, float, float]:
     """
     Fetch last 10 values of PM1.0, PM2.5, and PM10.0 from AirData;
     Compute for mean of each one then return as a tuple.
     The tuple that will be returned contain, in order: (PM1.0, PM2.5, PM10.0).
     """
-    # TODO : define fetching logic; import database-related modules/libraries
-    # (or alternatively, dyt it would be more elegant to move this to databases.py ???)
-    ...
-    return (0.1, 0.2, 0.3)
+    ten_rows = ten_recent(device_id)
+
+    pm1_0_values = [row.pm1_0 for row in ten_rows]
+    pm2_5_values = [row.pm2_5 for row in ten_rows]
+    pm10_0_values = [row.pm10_0 for row in ten_rows]
+
+    mean_pm1_0 = mean(pm1_0_values)
+    mean_pm2_5 = mean(pm2_5_values)
+    mean_pm10_0 = mean(pm10_0_values)
+
+    return (mean_pm1_0, mean_pm2_5, mean_pm10_0)
+
+def ten_recent(device_id: int) -> list[AirData]:
+    """
+    Helper function to fetch last 10 entries of a given device_id.
+    """
+    print("Accessing database.")
+    with Session(engine) as session:
+        query = select(AirData).where(AirData.device_id == device_id).order_by(AirData.timestamp.desc()).limit(10)
+        ten_rows = session.exec(query).all()
+        print(f"Ten most recent rows of device {device_id} extracted.")
+    return ten_rows

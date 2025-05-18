@@ -64,8 +64,8 @@ def get_air_data(request: Request, device_id: int):
     if point is None:
         return templates.TemplateResponse(request=request, name="404.html", status_code=404)
 
-    gas_conc: float = compute_gas_conc()
-    particle_conc: tuple[float, float, float] = compute_particle_conc()
+    gas_conc: float = compute_gas_conc(device_id)
+    particle_conc: tuple[float, float, float] = compute_particle_conc(device_id)
 
     statuses: dict[str, AirStatus] = compute_air_status(gas_conc, *particle_conc)
 
