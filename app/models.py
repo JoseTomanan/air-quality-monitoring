@@ -19,7 +19,7 @@ class AirData(SQLModel, table=True):
     """
     device_id: int = Field(primary_key=True)
     sequence: int = Field(primary_key=True)
-    timestamp: datetime = Field()
+    timestamp: datetime = Field(primary_key=True)
     gas_value: int = Field()
     pm1_0: int = Field()
     pm2_5: int = Field()
