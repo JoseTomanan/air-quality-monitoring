@@ -79,15 +79,14 @@ def update_air_data(data: AirData):
         session.commit()
     print("New air data received.")
 
+
 def compute_gas_conc(device_id: int) -> float:
     """
     Fetch last 10 values of gas_value from AirData;
     Compute for mean of gas concentration and return
     """
     ten_rows = ten_recent(device_id)
-    
     gas_values = [row.gas_value for row in ten_rows]
-
     mean_gas_conc = mean(gas_values)
 
     return mean_gas_conc
@@ -111,13 +110,16 @@ def compute_particle_conc(device_id: int) -> tuple[float, float, float]:
 
     return (mean_pm1_0, mean_pm2_5, mean_pm10_0)
 
-def ten_recent(device_id: int) -> list[AirData]:
+
+def ten_recent(device_id: int):
     """
     Helper function to fetch last 10 entries of a given device_id.
     """
     print("Accessing database.")
+
     with Session(engine) as session:
-        query = select(AirData).where(AirData.device_id == device_id).order_by(AirData.timestamp.desc()).limit(10)
+        query = select(AirData).where(AirData.device_id == device_id).order_by(AirData.timestamp.desc()).limit(10) # type: ignore
         ten_rows = session.exec(query).all()
         print(f"Ten most recent rows of device {device_id} extracted.")
+        
     return ten_rows
