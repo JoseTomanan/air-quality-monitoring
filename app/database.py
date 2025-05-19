@@ -123,3 +123,11 @@ def ten_recent(device_id: int):
         print(f"Ten most recent rows of device {device_id} extracted.")
         
     return ten_rows
+
+
+def get_most_recent_air_data():
+    """
+    Return most recent instance of air data
+    """
+    with Session(engine) as session:
+        ...
