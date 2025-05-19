@@ -164,14 +164,21 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
 
   const displayDeviceId = deviceId !== null ? deviceId : "(pending...)";
 
+  const sensorInfoRow = deviceId !== null
+    ? `<div class="flex items-center gap-2">
+         <span>Device ID: ${displayDeviceId}</span>
+         <a href="/points/${deviceId}" class="text-sm text-green-600 underline hover:text-green-800" target="_blank">View air data</a>
+       </div>`
+    : `<div>Device ID: ${displayDeviceId}</div>`;
+
   entry.innerHTML = `
     <div class="border border-gray-500 rounded px-4 py-2 my-2">
-      <span class="underline">${ name }</span><br>
-      Device ID: ${ displayDeviceId }<br>
-      Latitude: ${ lat.toFixed(4) }<br>
-      Longitude: ${ lng.toFixed(4) }<br>
+      <span class="underline">${name}</span><br>
+      ${sensorInfoRow}
+      Latitude: ${lat.toFixed(4)}<br>
+      Longitude: ${lng.toFixed(4)}<br>
       <button 
-        onclick="deleteMarker(${ id }, ${ deviceId })"
+        onclick="deleteMarker(${id}, ${deviceId})"
         class="mt-1 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
           Delete observation point
       </button>
@@ -180,3 +187,4 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
 
   list.appendChild(entry);
 }
+
