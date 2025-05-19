@@ -65,7 +65,7 @@ def delete_point_in_db(device_id: int):
             return False
 
 
-def update_air_data(data: AirData):
+def update_air_data(data: AirData) -> bool:
     """
     DB-facing function for receiving air data information
     """
@@ -75,10 +75,11 @@ def update_air_data(data: AirData):
         existing = session.get(AirData, (data.device_id, data.sequence, data.timestamp))
         if existing:
             print("Duplicate data detected, skipping insert.")
-            return
+            return False
         session.add(data)
         session.commit()
     print("New air data received.")
+    return True
 
 
 def compute_gas_conc(device_id: int) -> float:
