@@ -69,7 +69,8 @@ def update_air_data(data: AirData):
     """
     DB-facing function for receiving air data information
     """
-    print(f"Inserting: device_id={data.device_id}, sequence={data.sequence}")
+    print(f"Inserting: device_id={data.device_id}, sequence={data.sequence} at time {data.timestamp}")
+
     with Session(engine) as session:
         existing = session.get(AirData, (data.device_id, data.sequence))
         if existing:
@@ -118,16 +119,23 @@ def ten_recent(device_id: int):
     print("Accessing database.")
 
     with Session(engine) as session:
-        query = select(AirData).where(AirData.device_id == device_id).order_by(AirData.timestamp.desc()).limit(10) # type: ignore
+        query = select(AirData).where(AirData.device_id == device_id) \
+            .order_by(AirData.timestamp.desc()).limit(10) # type: ignore
         ten_rows = session.exec(query).all()
         print(f"Ten most recent rows of device {device_id} extracted.")
         
     return ten_rows
 
 
-def get_most_recent_air_data():
+def get_most_recent_air_data(device_id: int) -> AirData:
     """
-    Return most recent instance of air data
+    Return the most recent instance of air data for a given device_id
     """
     with Session(engine) as session:
-        ...
+        query = select(AirData).where(AirData.device_id == device_id) \
+            .order_by(AirData.timestamp.desc())  # type: ignore
+        most_recent = session.exec(query).first()
+
+        assert type(most_recent) is AirData
+
+        return most_recent

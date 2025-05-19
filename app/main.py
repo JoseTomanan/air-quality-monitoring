@@ -68,19 +68,21 @@ def get_air_data(request: Request, device_id: int):
     particle_conc: tuple[float, float, float] = compute_particle_conc(device_id)
 
     statuses: dict[str, AirStatus] = compute_air_status(gas_conc, *particle_conc)
+    timestamp: datetime = get_most_recent_air_data(device_id).timestamp
 
     return templates.TemplateResponse(
         name="getAirData.html",
         context={
             "request": request,
+            "timestamp": timestamp,
             "device_id": device_id,
             "location_name": point.location_name,
             "latitude": point.latitude,
             "longitude": point.longitude,
-            "gas_conc": f"{round(gas_conc, 5)} ({statuses['gas_conc']})",
-            "pm1_0_conc": f"{round(particle_conc[0], 5)} ({statuses['pm1_0']})",
-            "pm2_5_conc": f"{round(particle_conc[1], 5)} ({statuses['pm2_5']})",
-            "pm10_0_conc": f"{round(particle_conc[2], 5)} ({statuses['pm10_0']})",
+            "gas_conc": f"{round(gas_conc, 5)} ppm ({statuses['gas_conc']})",
+            "pm1_0_conc": f"{round(particle_conc[0], 5)} ppm ({statuses['pm1_0']})",
+            "pm2_5_conc": f"{round(particle_conc[1], 5)} ppm ({statuses['pm2_5']})",
+            "pm10_0_conc": f"{round(particle_conc[2], 5)} ppm ({statuses['pm10_0']})",
             }
         )
 
