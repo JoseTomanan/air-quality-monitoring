@@ -77,10 +77,10 @@ def get_air_data(request: Request, device_id: int):
             "location_name": point.location_name,
             "latitude": point.latitude,
             "longitude": point.longitude,
-            "gas_conc": str(f"{gas_conc} ({statuses["gas_conc"]})"),
-            "pm1_0_conc": str(f"{particle_conc[0]} ({statuses["pm1_0"]})"),
-            "pm2_5_conc": str(f"{particle_conc[1]} ({statuses["pm2_5"]})"),
-            "pm10_0_conc": str(f"{particle_conc[2]} ({statuses["pm10_0"]})"),
+            "gas_conc": f"{round(gas_conc, 5)} ({statuses['gas_conc']})",
+            "pm1_0_conc": f"{round(particle_conc[0], 5)} ({statuses['pm1_0']})",
+            "pm2_5_conc": f"{round(particle_conc[1], 5)} ({statuses['pm2_5']})",
+            "pm10_0_conc": f"{round(particle_conc[2], 5)} ({statuses['pm10_0']})",
             }
         )
 
