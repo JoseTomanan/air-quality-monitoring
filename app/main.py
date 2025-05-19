@@ -21,13 +21,12 @@ async def lifespan(app: FastAPI):
     create_db_and_tables()
     yield
 
-# Define the Pydantic model for the request
-class DeviceIdRequest(BaseModel):
-    device_id: int
+# # Define the Pydantic model for the request
+# class DeviceIdRequest(BaseModel):
+#     device_id: int
 
 app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory="../static"), name="static")
-
 templates = Jinja2Templates(directory="../templates")
 
 
@@ -123,7 +122,7 @@ def add_point(location_name: str=Form(...), latitude: float=Form(...), longitude
 
 
 @app.post("/delete_point")
-async def delete_point(request: DeviceIdRequest):
+async def delete_point(request: ObservationPointDelete):
     """
     Deletes a point by device_id.
     """
