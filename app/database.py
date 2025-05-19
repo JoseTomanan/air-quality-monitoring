@@ -72,7 +72,7 @@ def update_air_data(data: AirData):
     print(f"Inserting: device_id={data.device_id}, sequence={data.sequence} at time {data.timestamp}")
 
     with Session(engine) as session:
-        existing = session.get(AirData, (data.device_id, data.sequence))
+        existing = session.get(AirData, (data.device_id, data.sequence, data.timestamp))
         if existing:
             print("Duplicate data detected, skipping insert.")
             return
