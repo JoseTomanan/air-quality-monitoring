@@ -136,7 +136,7 @@ async def delete_point(request: ObservationPointDelete):
 
 
 @app.post("/send_data")
-def send_air_data(data: AirDataSend) -> bool:
+def send_air_data(data: AirDataSend) -> AirData:
     """
     For sensors; Send (a tick of) air data information to server
     """
@@ -153,4 +153,4 @@ def send_air_data(data: AirDataSend) -> bool:
         )
 
     resp: bool = update_air_data(appendable_data)
-    return resp
+    return appendable_data
