@@ -156,3 +156,47 @@ def send_air_data(data: AirDataSend) -> AirData:
     update_air_data(appendable_data)
 
     return appendable_data
+
+@app.get("/api/chart-data")
+async def get_chart_data(device_id: int):
+    """
+    Fetchable chart data
+    """
+    
+    values = ten_latest_values(device_id)   # can still be changed
+    
+    x_axis = [entry.strftime("%Y-%m-%d %H:%M:%S") for entry in values[0]]
+    
+    return {
+        "labels": x_axis,
+        "datasets": [
+        {
+            "label": "Gas Concentration",
+            "data": values[1],
+            "borderColor": "rgb(75, 192, 192)",
+            "fill": False
+        },
+
+        {
+            "label": "pm 1.0",
+            "data": values[2],
+            "borderColor": "rgb(255, 99, 132)",
+            "fill": False
+        },
+
+        {
+            "label": "pm 2.5",
+            "data": values[3],
+            "borderColor": "rgb(75, 192, 75)",
+            "fill": False
+        },
+
+        {
+            "label": "pm 10.0",
+            "data": values[4],
+            "borderColor": "rgb(255, 206, 86)",
+            "fill": False
+        },
+
+        ]
+    }

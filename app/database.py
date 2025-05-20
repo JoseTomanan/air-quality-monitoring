@@ -2,6 +2,7 @@ from sqlmodel import SQLModel, create_engine, Session, select
 from models import *
 from statistics import mean
 
+from datetime import timedelta
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -139,3 +140,14 @@ def get_most_recent_air_data(device_id: int) -> AirData:
         assert type(most_recent) is AirData
 
         return most_recent
+
+def ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
+    ten_rows = ten_recent(device_id)
+
+    timestamp_10_recent = [row.timestamp for row in ten_rows]
+    gas_value_10_recent = [row.gas_value for row in ten_rows]
+    pm1_0_10_recent = [row.pm1_0 for row in ten_rows]
+    pm2_5_10_recent = [row.pm2_5 for row in ten_rows]
+    pm10_0_10_recent = [row.pm10_0 for row in ten_rows]
+
+    return (timestamp_10_recent, gas_value_10_recent, pm1_0_10_recent, pm2_5_10_recent, pm10_0_10_recent)

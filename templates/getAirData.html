@@ -46,9 +46,20 @@
             <span id="particle_conc"> {{pm10_0_conc}} </span>
         </li>
     </ul>
+
+    <canvas id="dataChart" width="600" height="300"></canvas>
+
     <button
         id="reload"
         class="text-blue-500 hover:underline border border-blue-500 px-2 rounded"
         onClick="window.location.href=window.location.href"
     >Reload page</button>
+{% endblock %}
+
+{% block chartscript %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> const dev_id = {{ device_id }} </script>
+    <script src="{{ url_for('static', path='js/chartSetup.js') }}"></script>
+
 {% endblock %}
