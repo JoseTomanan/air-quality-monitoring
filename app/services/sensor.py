@@ -11,11 +11,11 @@ def compute_air_status(gas_conc: float, pm1_0: float, pm2_5: float, pm10_0: floa
     statuses: dict[str, AirStatus] = {}
 
     GAS_CONC_STATUS = [
-        (50.0, AirStatus.good),
-        (100.0, AirStatus.moderate),
-        (200.0, AirStatus.unhealthy),
-        (300.0, AirStatus.very_unhealthy),
-        (float('inf'), AirStatus.hazardous),
+        (1000.0, AirStatus.good),
+        # (200.0, AirStatus.moderate),
+        (float('inf'), AirStatus.unhealthy),
+        # (1000.0, AirStatus.very_unhealthy),
+        # (float('inf'), AirStatus.hazardous),
         ]
 
     PM1_0_2_5_STATUS = [
