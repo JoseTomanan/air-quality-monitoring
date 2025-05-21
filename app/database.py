@@ -122,7 +122,7 @@ def ten_recent(device_id: int):
 
     with Session(engine) as session:
         query = select(AirData).where(AirData.device_id == device_id) \
-            .order_by(AirData.timestamp.desc()).limit(10) # type: ignore
+            .order_by(AirData.timestamp).limit(10) # type: ignore
         ten_rows = session.exec(query).all()
         print(f"Ten most recent rows of device {device_id} extracted.")
         
