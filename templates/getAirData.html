@@ -15,7 +15,7 @@
 
 {% block body%}
     <h1>Information at Sensor # {{ device_id }}</h1>
-    <span class="italic text-slate-500 mb-2">(Updated as of {{ timestamp }} UTC)</span>
+    <span class="italic text-slate-500 mb-2">(Updated as of {{ timestamp|to_ph_time() }})</span>
     <ul class="list-inside list-disc">
         <li>Device ID:
             <span id="device_id">{{ device_id }}</span>
