@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+{% block title %}Air Quality Graphs{% endblock %}
+
+{% block script %}
+    <script lang="ts">
+        /** script */
+    </script>
+{% endblock %}
+
+{% block style %}
+    <style type="text/tailwindcss">
+        
+    </style>
+{% endblock %}
+
+{% block body%}
+    <h1>Visualization Graphs for Sensor # {{ device_id }}</h1>
+    <div class="center">
+        <canvas id="dataChart_gas_conc" width="1200" height="300"></canvas>
+        <canvas id="dataChart_pm2_5" width="1200" height="300"></canvas>
+        <canvas id="dataChart_pm1_0" width="1200" height="300"></canvas>
+        <canvas id="dataChart_pm10_0" width="1200" height="300"></canvas>
+    </div>
+    
+    <button
+        id="reload"
+        class="text-blue-500 hover:underline border border-blue-500 px-2 rounded"
+        onClick="window.location.href=window.location.href"
+    >Reload page</button>
+{% endblock %}
+
+{% block chartscript %}
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script> const dev_id = {{ device_id }} </script>
+    <script src="{{ url_for('static', path='js/chartSetup.js') }}"></script>
+
+{% endblock %}
