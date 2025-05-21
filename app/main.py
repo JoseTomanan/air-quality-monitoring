@@ -88,11 +88,17 @@ def get_air_data(request: Request, device_id: int):
 
 @app.get("/graphs/{device_id}", response_class=HTMLResponse)
 def load_graphs(request: Request, device_id: int):
+    point = get_point_info(device_id)
+
+    if point is None:
+        return templates.TemplateResponse(request=request, name="404.html", status_code=404)
+
     return templates.TemplateResponse(
         name="loadGraphs.html",
         context={
             "request": request,
-            "device_id": device_id
+            "device_id": device_id,
+            "location_name": point.location_name,
         }
     )
 
