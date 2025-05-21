@@ -11,6 +11,19 @@
     <style type="text/tailwindcss">
         
     </style>
+
+    <style>
+    .card {
+    padding: 2rem;
+    background-color: var(--pico-background);
+    border: 1px solid var(--pico-muted-border-color, #ddd);
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
+    max-width: 700px;
+    }
+    </style>
+
 {% endblock %}
 
 {% block body%}
@@ -47,7 +60,9 @@
         </li>
     </ul>
 
+    <section class = "card">
     <canvas id="dataChart" width="600" height="300"></canvas>
+    </section>
 
     <button
         id="reload"

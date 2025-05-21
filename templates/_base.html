@@ -4,6 +4,7 @@
     <title>
         {% block title %}{% endblock %}
     </title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <link rel="stylesheet" href="../static/styles.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,14 @@
     {% block style %}{% endblock %}
 </head>
 <body>
+    <div style="display: flex; justify-content: flex-end; padding: 1rem;">
+        <label for="theme-toggle-switch">
+            <input type="checkbox" id="theme-toggle-switch" role="switch">
+            Dark Mode
+        </label>
+    </div>
     {% block body %}{% endblock %}
     {% block chartscript %}{% endblock %}
+    <script src="{{ url_for('static', path='js/themeToggle.js') }}"></script>
 </body>
 </html>
