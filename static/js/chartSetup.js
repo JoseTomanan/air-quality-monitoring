@@ -1,3 +1,8 @@
+/**
+ * 
+ * @param {string} canvas_id 
+ * @param {string} metric 
+ */
 async function drawChart(canvas_id, metric) {
   console.log(`drawing ${metric} for device ${dev_id}`);
   
@@ -25,14 +30,22 @@ async function drawChart(canvas_id, metric) {
       maintainAspectRatio: false,
       scales: {
         x: {
-          ticks: { minRotation: 90, maxRotation: 90 },
+          type: "time",
+          time: {
+            unit: "minute",
+            stepSize: 5,
+            displayFormats: {
+              minute: "MM/dd, HH:mm" // e.g., "05/21, 14:35"
+            }
+          },
+          ticks: { minRotation: 30, maxRotation: 30 },
         },
       },
     },
   });
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   drawChart("dataChart_gas_conc", "gas");
   drawChart("dataChart_pm1_0", "pm1");
   drawChart("dataChart_pm2_5", "pm2.5");

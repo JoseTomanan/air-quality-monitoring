@@ -1,3 +1,4 @@
+from typing import Sequence
 from sqlmodel import SQLModel, create_engine, Session, select
 from models import *
 from statistics import mean
@@ -142,7 +143,7 @@ def get_most_recent_air_data(device_id: int) -> AirData:
 
         return most_recent
 
-def ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
+def get_ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
     ten_rows = ten_recent(device_id)
 
     timestamp_10_recent = [row.timestamp for row in ten_rows]
@@ -153,7 +154,7 @@ def ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
 
     return (timestamp_10_recent, gas_value_10_recent, pm1_0_10_recent, pm2_5_10_recent, pm10_0_10_recent)
 
-def all_values_from_data(device_id: int):
+def get_all_values_from_data(device_id: int) -> tuple[list, list, list, list, list]:
     """
     Get all values from db.
     Generate 5-minute intervals to be used as x-axis.
@@ -167,33 +168,15 @@ def all_values_from_data(device_id: int):
     with Session(engine) as session:
         query = select(AirData).where(AirData.device_id == device_id) \
             .order_by(AirData.timestamp) # type: ignore
-        all_rows = session.exec(query).all()
+        all_rows: Sequence[AirData] = session.exec(query).all()
     
-    # Generate 5-minute intervals
-    first_entry = all_rows[0]
-    last_entry = all_rows[-1]
-    intervals = generate_intervals_between(first_entry.timestamp, last_entry.timestamp)
-    print("number of intervals:", len(intervals))
-    #print("intervals: ")
-    #for point in intervals:
-    #    print(point.strftime("%Y-%m-%d %H:%M:%S"))
+    isotime_all = [row.timestamp.isoformat() for row in all_rows]
+    gas_value_all = [row.gas_value for row in all_rows]
+    pm1_0_all = [row.pm1_0 for row in all_rows]
+    pm2_5_all = [row.pm2_5 for row in all_rows]
+    pm10_0_all = [row.pm10_0 for row in all_rows]
 
-    # Group data into 5-minute intervals
-    five_minute_groups = [[] for x in range(len(intervals))]
-    print("number of five minute groups:",len(five_minute_groups))
-    for entry in all_rows:
-        for i in range(len(intervals)):
-            if entry.timestamp < intervals[i] and (entry.timestamp + timedelta(minutes = 5) > intervals[i]):
-                five_minute_groups[i].append(entry)
-                break
-    # Now going into per metric, THIS WILL BE DONE 4 TIMES
-
-    # gas conc
-    gas_conc_averages = []
-    for timegroup in five_minute_groups:
-        if timegroup:
-            
-            gas_conc_averages.append(mean(timegroup))
+    return (isotime_all, gas_value_all, pm1_0_all, pm2_5_all, pm10_0_all)
     
     
 def generate_intervals_between(start: datetime, end: datetime, interval_minutes: int = 5):

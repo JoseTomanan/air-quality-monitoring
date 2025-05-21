@@ -172,28 +172,25 @@ def send_air_data(data: AirDataSend) -> AirData:
     resp: bool = update_air_data(appendable_data)
     return appendable_data
 
+
 @app.get("/api/chart-data")
 async def get_chart_data(device_id: int, metric: str):
     """
     Fetch chart data for a specific device and metric
     """
-    print(f"Received request: device_id={device_id}, metric={metric}")
-    values = ten_latest_values(device_id)
-    x_axis = [entry.strftime("%Y-%m-%d %H:%M:%S") for entry in values[0]]
+    print(f"---> Received request: device_id={device_id}, metric={metric}")
 
-    metric_map = {
+    values: tuple[list,list,list,list,list] = get_all_values_from_data(device_id)
+    x_axis: list[str] = values[0]
+
+    METRIC_MAP = {
         "gas": (1, "Gas Concentration", "rgb(75, 192, 192)"),
         "pm1": (2, "PM 1.0", "rgb(255, 99, 132)"),
         "pm2.5": (3, "PM 2.5", "rgb(75, 192, 75)"),
         "pm10": (4, "PM 10.0", "rgb(255, 206, 86)")
     }
 
-    if metric not in metric_map:
-        raise HTTPException(status_code=400, detail="Invalid metric")
-
-    idx, label, color = metric_map[metric]
-
-    all_values_from_data(device_id) # just to test
+    idx, label, color = METRIC_MAP[metric]
 
     return {
         "labels": x_axis,

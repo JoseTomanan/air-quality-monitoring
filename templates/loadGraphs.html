@@ -2,9 +2,9 @@
 {% block title %}Air Quality Graphs{% endblock %}
 
 {% block script %}
-    <script lang="ts">
-        /** script */
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
 {% endblock %}
 
 {% block style %}
@@ -39,8 +39,6 @@
 {% endblock %}
 
 {% block chartscript %}
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script> const dev_id = {{ device_id }} </script>
     <script src="{{ url_for('static', path='js/chartSetup.js') }}"></script>
 
