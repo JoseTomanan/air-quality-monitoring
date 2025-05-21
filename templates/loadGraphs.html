@@ -17,10 +17,18 @@
     <h1>Historical Graphs for Sensor # {{ device_id }}</h1>
     <h4 class="text-xl text-gray-700">Location: {{ location_name }}</h4>
     <div class="center">
-        <canvas id="dataChart_gas_conc" width="1200" height="400"></canvas>
-        <canvas id="dataChart_pm2_5" width="1200" height="400"></canvas>
-        <canvas id="dataChart_pm1_0" width="1200" height="400"></canvas>
-        <canvas id="dataChart_pm10_0" width="1200" height="400"></canvas>
+        <div class="w-1200px overflow-auto">
+            <canvas id="dataChart_gas_conc" width="2400" height="400"></canvas>
+        </div>
+        <div class="w-1200px overflow-auto">
+            <canvas id="dataChart_pm2_5" width="2400" height="400"></canvas>
+        </div>
+        <div class="w-1200px overflow-auto">
+            <canvas id="dataChart_pm1_0" width="2400" height="400"></canvas>
+        </div>
+        <div class="w-1200px overflow-auto">
+            <canvas id="dataChart_pm10_0" width="2400" height="400"></canvas>
+        </div>
     </div>
     
     <button
