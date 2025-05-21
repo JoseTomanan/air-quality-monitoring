@@ -15,7 +15,8 @@
 
 {% block body%}
     <h1>Historical Graphs for Sensor # {{ device_id }}</h1>
-    <h4 class="text-xl text-gray-700">Location: {{ location_name }}</h4>
+    <h4 class="text-xl">Location: {{ location_name }}</h4>
+    <h4 class="italic text-gray-600">(Note: time is in UTC, not UTC+8)</h4>
     <div class="center">
         <div class="w-1200px overflow-auto">
             <canvas id="dataChart_gas_conc" width="2400" height="400"></canvas>
