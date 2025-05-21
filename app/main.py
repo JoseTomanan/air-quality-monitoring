@@ -51,6 +51,16 @@ async def open_map(request: Request):
         name="map.html"
         )
 
+@app.get("/user", response_class=HTMLResponse)
+async def open_user(request: Request):
+    """
+    Open user map
+    """
+    return templates.TemplateResponse(
+        request=request,
+        name="user.html"
+    )
+
 
 @app.get("/points/{device_id}", response_class=HTMLResponse)
 def get_air_data(request: Request, device_id: int):
