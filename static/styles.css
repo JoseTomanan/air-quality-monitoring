@@ -12,3 +12,21 @@ h1 {
 h1, h2, h3 {
     color: #047857;
 }
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+  justify-items: center;
+}
+.chart-grid canvas {
+  border: 2px solid #ccc;
+  background-color: white;
+}
+
+@media (max-width: 768px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+}

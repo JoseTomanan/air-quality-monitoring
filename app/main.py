@@ -156,45 +156,29 @@ def send_air_data(data: AirDataSend) -> AirData:
     return appendable_data
 
 @app.get("/api/chart-data")
-async def get_chart_data(device_id: int):
+async def get_chart_data(device_id: int, metric: str):
     """
-    Fetchable chart data
+    Fetch chart data for a specific device and metric
     """
-    
-    values = ten_latest_values(device_id)   # can still be changed
-    
+    print(f"Received request: device_id={device_id}, metric={metric}")
+    values = ten_latest_values(device_id)
     x_axis = [entry.strftime("%Y-%m-%d %H:%M:%S") for entry in values[0]]
-    
+
+    metric_map = {
+        "gas": (1, "Gas Concentration", "rgb(75, 192, 192)"),
+        "pm1": (2, "PM 1.0", "rgb(255, 99, 132)"),
+        "pm2.5": (3, "PM 2.5", "rgb(75, 192, 75)"),
+        "pm10": (4, "PM 10.0", "rgb(255, 206, 86)")
+    }
+
+    if metric not in metric_map:
+        raise HTTPException(status_code=400, detail="Invalid metric")
+
+    idx, label, color = metric_map[metric]
+
     return {
         "labels": x_axis,
-        "datasets": [
-        {
-            "label": "Gas Concentration",
-            "data": values[1],
-            "borderColor": "rgb(75, 192, 192)",
-            "fill": False
-        },
-
-        {
-            "label": "pm 1.0",
-            "data": values[2],
-            "borderColor": "rgb(255, 99, 132)",
-            "fill": False
-        },
-
-        {
-            "label": "pm 2.5",
-            "data": values[3],
-            "borderColor": "rgb(75, 192, 75)",
-            "fill": False
-        },
-
-        {
-            "label": "pm 10.0",
-            "data": values[4],
-            "borderColor": "rgb(255, 206, 86)",
-            "fill": False
-        },
-
-        ]
+        "label": label,
+        "data": values[idx],
+        "borderColor": color
     }
