@@ -52,7 +52,7 @@ async def open_map(request: Request):
         )
 
 
-@app.get("/points/{device_id}")
+@app.get("/points/{device_id}", response_class=HTMLResponse)
 def get_air_data(request: Request, device_id: int):
     """
     Given location ID, return corresponding observation point 
@@ -84,6 +84,17 @@ def get_air_data(request: Request, device_id: int):
             "pm10_0_conc": f"{round(particle_conc[2], 5)} ppm ({statuses['pm10_0']})",
             }
         )
+
+
+@app.get("/graphs/{device_id}", response_class=HTMLResponse)
+def load_graphs(request: Request, device_id: int):
+    return templates.TemplateResponse(
+        name="loadGraphs.html",
+        context={
+            "request": request,
+            "device_id": device_id
+        }
+    )
 
 
 @app.get("/points")
