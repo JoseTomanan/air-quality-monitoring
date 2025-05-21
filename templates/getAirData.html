@@ -46,25 +46,20 @@
             <span id="particle_conc"> {{pm10_0_conc}} </span>
         </li>
     </ul>
-
-    <div class="chart-grid">
-        <canvas id="dataChart_gas_conc" width="600" height="300"></canvas>
-        <canvas id="dataChart_pm1_0" width="600" height="300"></canvas>
-        <canvas id="dataChart_pm2_5" width="600" height="300"></canvas>
-        <canvas id="dataChart_pm10_0" width="600" height="300"></canvas>
-    </div>
     
-    <button
-        id="reload"
-        class="text-blue-500 hover:underline border border-blue-500 px-2 rounded"
-        onClick="window.location.href=window.location.href"
-    >Reload page</button>
+    <div class="flex gap-1">
+        <button
+            id="reload"
+            class="text-blue-500 hover:underline border border-blue-500 px-2 rounded"
+            onClick="window.location.href=window.location.href"
+        >Reload page</button>
+        <a
+            id="gotographs"
+            class="text-red-500 hover:underline border border-red-500 px-2 rounded"
+            href="/graphs/{{ device_id }}"
+        >Open graphs</a>
+    </div>
 {% endblock %}
 
 {% block chartscript %}
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script> const dev_id = {{ device_id }} </script>
-    <script src="{{ url_for('static', path='js/chartSetup.js') }}"></script>
-
 {% endblock %}
