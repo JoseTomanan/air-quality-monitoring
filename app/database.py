@@ -152,3 +152,79 @@ def ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
     pm10_0_10_recent = [row.pm10_0 for row in ten_rows]
 
     return (timestamp_10_recent, gas_value_10_recent, pm1_0_10_recent, pm2_5_10_recent, pm10_0_10_recent)
+
+def all_values_from_data(device_id: int):
+    """
+    Get all values from db.
+    Generate 5-minute intervals to be used as x-axis.
+    Per metric:
+        Group into 5-minute intervals.
+        Get mean of 5-minute intervals.
+        Pass mean of 5-minute intervals as datapoints.  
+    """
+
+    # Get all values from db.
+    with Session(engine) as session:
+        query = select(AirData).where(AirData.device_id == device_id) \
+            .order_by(AirData.timestamp) # type: ignore
+        all_rows = session.exec(query).all()
+    
+    # Generate 5-minute intervals
+    first_entry = all_rows[0]
+    last_entry = all_rows[-1]
+    intervals = generate_intervals_between(first_entry.timestamp, last_entry.timestamp)
+    print("number of intervals:", len(intervals))
+    #print("intervals: ")
+    #for point in intervals:
+    #    print(point.strftime("%Y-%m-%d %H:%M:%S"))
+
+    # Group data into 5-minute intervals
+    five_minute_groups = [[] for x in range(len(intervals))]
+    print("number of five minute groups:",len(five_minute_groups))
+    for entry in all_rows:
+        for i in range(len(intervals)):
+            if entry.timestamp < intervals[i] and (entry.timestamp + timedelta(minutes = 5) > intervals[i]):
+                five_minute_groups[i].append(entry)
+                break
+    # Now going into per metric, THIS WILL BE DONE 4 TIMES
+
+    # gas conc
+    gas_conc_averages = []
+    for timegroup in five_minute_groups:
+        if timegroup:
+            
+            gas_conc_averages.append(mean(timegroup))
+    
+    
+def generate_intervals_between(start: datetime, end: datetime, interval_minutes: int = 5):
+    if start > end:
+        raise ValueError("Start time must be before end time")
+    
+    interval = timedelta(minutes=interval_minutes)
+
+    # Round start DOWN to nearest interval
+    rounded_start = start - timedelta(
+        minutes=start.minute % interval_minutes,
+        seconds=start.second,
+        microseconds=start.microsecond
+    )
+
+    # Round end UP to nearest interval
+    minute_remainder = end.minute % interval_minutes
+    if minute_remainder == 0 and end.second == 0 and end.microsecond == 0:
+        rounded_end = end
+    else:
+        rounded_end = end + timedelta(
+            minutes=interval_minutes - minute_remainder,
+            seconds=-end.second,
+            microseconds=-end.microsecond
+        )
+
+    # Generate intervals
+    current = rounded_start
+    result = []
+    while current <= rounded_end:
+        result.append(current)
+        current += interval
+
+    return result

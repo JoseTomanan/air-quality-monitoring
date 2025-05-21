@@ -193,6 +193,8 @@ async def get_chart_data(device_id: int, metric: str):
 
     idx, label, color = metric_map[metric]
 
+    all_values_from_data(device_id) # just to test
+
     return {
         "labels": x_axis,
         "label": label,
