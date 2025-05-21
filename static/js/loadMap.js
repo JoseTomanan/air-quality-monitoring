@@ -131,16 +131,33 @@ function createMarker(lat, lng, name, deviceId = null) {
   const leafletId = marker._leaflet_id;
   const safeName = name || "Unnamed observation point";
 
-  marker.bindPopup(`
+  let popupContent = `
     <strong>${safeName}</strong><br>
     (${lat.toFixed(4)}, ${lng.toFixed(4)})<br>
     ${deviceId ? `Device ID: ${deviceId}<br>` : ''}
-    <button 
-        onclick="deleteMarker(${leafletId}, ${deviceId})" 
-        class="mt-2 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
-        Delete observation point
-    </button>
-  `);
+  `;
+
+  if (window.isUser != true){
+    popupContent += `
+      <button 
+          onclick="deleteMarker(${leafletId}, ${deviceId})" 
+          class="mt-2 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+          Delete observation point
+      </button>
+    `;
+  }
+
+  // marker.bindPopup(`
+  //   <strong>${safeName}</strong><br>
+  //   (${lat.toFixed(4)}, ${lng.toFixed(4)})<br>
+  //   ${deviceId ? `Device ID: ${deviceId}<br>` : ''}
+  //   <button 
+  //       onclick="deleteMarker(${leafletId}, ${deviceId})" 
+  //       class="mt-2 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
+  //       Delete observation point
+  //   </button>
+  // `);
+  marker.bindPopup(popupContent);
 
   marker.on('click', () => marker.openPopup());
   markerMap[leafletId] = marker;
@@ -171,7 +188,15 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
        </div>`
     : `<div>Device ID: ${displayDeviceId}</div>`;
 
-  entry.innerHTML = `
+  entry.innerHTML = window.isUser ? `
+    <div class="border border-gray-500 rounded px-4 py-2 my-2">
+      <span class="underline">${name}</span><br>
+      ${sensorInfoRow}
+      Latitude: ${lat.toFixed(4)}<br>
+      Longitude: ${lng.toFixed(4)}<br>
+    </div>
+  `
+  : `
     <div class="border border-gray-500 rounded px-4 py-2 my-2">
       <span class="underline">${name}</span><br>
       ${sensorInfoRow}
@@ -183,8 +208,8 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
           Delete observation point
       </button>
     </div>
-  `;
-
+  `
+  ;
   list.appendChild(entry);
 }
 
