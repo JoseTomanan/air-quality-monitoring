@@ -1,8 +1,14 @@
 body {
-    padding: 1rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 h1 {
     font-size: 1.875rem; /* 3xl */
     font-weight: 700; /* bold */
-    
+    margin-bottom: 0.5rem;
+}
+h1, h2, h3 {
+    color: #047857;
 }
