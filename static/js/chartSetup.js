@@ -38,6 +38,11 @@ async function drawChart(canvas_id, metric) {
               minute: "MM/dd, HH:mm" // e.g., "05/21, 14:35"
             }
           },
+          adapters: {
+            date: {
+              zone: "Asia/Manila"
+            }
+          },
           ticks: { minRotation: 30, maxRotation: 30 },
         },
       },

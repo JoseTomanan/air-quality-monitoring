@@ -3,7 +3,7 @@ from sqlmodel import SQLModel, create_engine, Session, select
 from models import *
 from statistics import mean
 
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, timezone
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -164,7 +164,7 @@ def get_most_recent_air_data(device_id: int) -> AirData:
 def get_ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
     ten_rows = ten_recent(device_id)
 
-    isotime_all_recent = [row.timestamp.isoformat() for row in ten_rows]
+    isotime_all_recent = [row.timestamp.replace(tzinfo=timezone.utc).isoformat() for row in ten_rows]
     gas_value_10_recent = [row.gas_value for row in ten_rows]
     pm1_0_10_recent = [row.pm1_0 for row in ten_rows]
     pm2_5_10_recent = [row.pm2_5 for row in ten_rows]
@@ -182,7 +182,7 @@ def get_all_values_from_data(device_id: int) -> tuple[list, list, list, list, li
             .order_by(AirData.timestamp.desc()) # type: ignore
         all_rows: Sequence[AirData] = session.exec(query).all()
     
-    isotime_all = [row.timestamp.isoformat() for row in all_rows]
+    isotime_all = [row.timestamp.replace(tzinfo=timezone.utc).isoformat() for row in all_rows]
     gas_value_all = [row.gas_value for row in all_rows]
     pm1_0_all = [row.pm1_0 for row in all_rows]
     pm2_5_all = [row.pm2_5 for row in all_rows]
