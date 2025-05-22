@@ -177,12 +177,17 @@ def get_all_values_from_data(device_id: int) -> tuple[list, list, list, list, li
     """
     Get all values from db.
     """
+
     with Session(engine) as session:
-        query = select(AirData).where(AirData.device_id == device_id) \
-            .order_by(AirData.timestamp.desc()) # type: ignore
+        query = select(AirData).where(AirData.device_id == device_id).order_by(AirData.timestamp)
         all_rows: Sequence[AirData] = session.exec(query).all()
-    
-    isotime_all = [row.timestamp.isoformat() for row in all_rows]
+
+    # Convert to UTC+8 and format
+    isotime_all = [
+        (row.timestamp + timedelta(hours=8)).strftime("%m/%d, %H:%M")
+        for row in all_rows
+    ]
+
     gas_value_all = [row.gas_value for row in all_rows]
     pm1_0_all = [row.pm1_0 for row in all_rows]
     pm2_5_all = [row.pm2_5 for row in all_rows]
