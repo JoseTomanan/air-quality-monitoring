@@ -10,7 +10,7 @@
 {% block style %}
     <style type="text/tailwindcss">
         a {
-            @apply text-blue-500 hover:underline
+            @apply text-blue-600 hover:underline
         }
     </style>
 {% endblock %}
@@ -19,14 +19,15 @@
     <header>
         <h1>Air Quality Monitoring</h1>
     </header>
-    <p>
-        To get started, visit the <a href="/docs">/docs API interface</a> to read the documentation.
+    <p class="text-lg">
+        To get started, visit the <a href="/docs">/docs API documentation interface</a>.
         <br>
-        You can also open the <a href="https://github.com/JoseTomanan/air-quality-monitoring">Git repository</a> to see the codebase.
+        You can also open the <a href="https://github.com/JoseTomanan/air-quality-monitoring">Git repository</a>.
         <br>
-        Alternatively, you may navigate to one of the pages below:
     </p>
-    <ul class="list-inside list-disc">
+    <br>
+    <h2 class="font-bold text-2xl">Links</h2>
+    <ul class="list-inside list-disc text-lg">
         <li>
             <a href="/points/1">/points/1</a>
         </li>
@@ -35,6 +36,9 @@
         </li>
         <li>
             <a href="/map">/map</a>
+        </li>
+        <li>
+            <a href="/user">/user</a>
         </li>
     </ul>
 
