@@ -91,7 +91,7 @@ def compute_gas_conc(device_id: int) -> float:
     """
     ten_rows = ten_recent(device_id)
     gas_values = [row.gas_value for row in ten_rows]
-    mean_gas_conc = mean(gas_values)
+    mean_gas_conc = mean(gas_values) if gas_values else 0.0
 
     return mean_gas_conc
 
@@ -108,9 +108,9 @@ def compute_particle_conc(device_id: int) -> tuple[float, float, float]:
     pm2_5_values = [row.pm2_5 for row in ten_rows]
     pm10_0_values = [row.pm10_0 for row in ten_rows]
 
-    mean_pm1_0 = mean(pm1_0_values)
-    mean_pm2_5 = mean(pm2_5_values)
-    mean_pm10_0 = mean(pm10_0_values)
+    mean_pm1_0 = mean(pm1_0_values) if pm1_0_values else 0.0
+    mean_pm2_5 = mean(pm2_5_values) if pm2_5_values else 0.0
+    mean_pm10_0 = mean(pm10_0_values) if pm10_0_values else 0.0
 
     return (mean_pm1_0, mean_pm2_5, mean_pm10_0)
 
@@ -143,6 +143,7 @@ def get_most_recent_air_data(device_id: int) -> AirData:
 
         return most_recent
 
+
 def get_ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]:
     ten_rows = ten_recent(device_id)
 
@@ -153,6 +154,7 @@ def get_ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]
     pm10_0_10_recent = [row.pm10_0 for row in ten_rows]
 
     return (timestamp_10_recent, gas_value_10_recent, pm1_0_10_recent, pm2_5_10_recent, pm10_0_10_recent)
+
 
 def get_all_values_from_data(device_id: int) -> tuple[list, list, list, list, list]:
     """
