@@ -25,6 +25,7 @@
         <span class="flex-grow">Location name: {{ location_name }}</span>
         <span class="flex-grow">Coordinates: {{ latitude }}, {{ longitude }}</span>
     </div>
+    
     <br>
 
     <!--div class="flex gap-8 text-xl">
@@ -97,6 +98,12 @@
             <canvas id="dataChart_pm10_0" width="600" height="300"></canvas>
         </div>
     </div>
+
+    <br>
+    <span class="text-slate-400 text-sm">
+        <i>Legend for concentration:</i>
+        <b>CURRENT</b> | MOST RECENT (INTERPRETATION)
+    </span>
 {% endblock %}
 
 {% block chartscript %}
