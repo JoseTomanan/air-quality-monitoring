@@ -90,9 +90,9 @@ def compute_gas_conc(device_id: int) -> float:
     Compute for mean of gas concentration and return
     """
     ten_rows = ten_recent(device_id)
+
     gas_values = [row.gas_value for row in ten_rows]
     mean_gas_conc = mean(gas_values) if gas_values else 0.0
-    # mean_gas_conc = mean(gas_values)
 
     return mean_gas_conc
 
@@ -126,7 +126,12 @@ def ten_recent(device_id: int):
         query = select(AirData).where(AirData.device_id == device_id) \
             .order_by(AirData.timestamp.desc()).limit(10)  # type: ignore
         ten_rows = session.exec(query).all()
-        print(f"Ten most recent rows of device {device_id} extracted.")
+
+        print("--> ten rows:", [
+                (str(row.timestamp), row.gas_value, row.pm1_0, row.pm2_5, row.pm10_0)
+                for row in ten_rows
+            ]
+            )
         
     return ten_rows
 
@@ -150,6 +155,8 @@ def get_most_recent_air_data(device_id: int) -> AirData:
                 pm2_5=0,
                 pm10_0=0,
             )
+        
+        print("--> MOST RECENT:", str(most_recent.timestamp), most_recent)
 
         return most_recent
 
@@ -169,17 +176,10 @@ def get_ten_latest_values(device_id: int) -> tuple[list, list, list, list, list]
 def get_all_values_from_data(device_id: int) -> tuple[list, list, list, list, list]:
     """
     Get all values from db.
-    Generate 5-minute intervals to be used as x-axis.
-    Per metric:
-        Group into 5-minute intervals.
-        Get mean of 5-minute intervals.
-        Pass mean of 5-minute intervals as datapoints.  
     """
-
-    # Get all values from db.
     with Session(engine) as session:
         query = select(AirData).where(AirData.device_id == device_id) \
-            .order_by(AirData.timestamp) # type: ignore
+            .order_by(AirData.timestamp.desc()) # type: ignore
         all_rows: Sequence[AirData] = session.exec(query).all()
     
     isotime_all = [row.timestamp.isoformat() for row in all_rows]

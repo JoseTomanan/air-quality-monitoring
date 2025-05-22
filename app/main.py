@@ -95,8 +95,7 @@ def get_air_data(request: Request, device_id: int):
     pm2_5_recent: int = MOSTRECENT.pm2_5
     pm10_0_recent: int = MOSTRECENT.pm10_0
 
-    print("---> most recent pm10", pm10_0_recent)
-
+    print("---> most recent values:", pm10_0_recent)
 
     return templates.TemplateResponse(
         name="getAirData.html",
