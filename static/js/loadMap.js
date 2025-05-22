@@ -203,11 +203,11 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
       <div class="flex gap-2">
         <button 
           onclick="deleteMarker(${id}, ${deviceId})"
-          class="px-2 border border-red-600 text-red-600 rounded hover:underline transition"
+          class="px-2 border border-red-500 text-red-500 rounded hover:underline transition"
         > Delete </button>
         <a
           href="/points/${deviceId}"
-          class="px-2 border border-green-600 text-green-600 rounded hover:underline transition"
+          class="px-2 border border-blue-500 text-blue-500 rounded hover:underline transition"
           target="_blank"
         >View Data</a>
       </div>
