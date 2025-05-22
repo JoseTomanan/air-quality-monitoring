@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster.list@0.4.4/dist/leaflet-markercluster-list.css"></link>
     <style type="text/tailwindcss">
         h3 {
-            @apply font-bold text-xl
+            @apply font-bold text-2xl
         }
         input {
             @apply bg-gray-50 rounded px-2 ring ring-gray-200
@@ -56,7 +56,7 @@
     <h1>Map of sensor instances</h1>
     <div id="map" style="height: 500px;"></div>
     <br>
-    <form id="information" hx-post="/add_point" hx-swap="none">
+    <form class="flex gap-2" id="information" hx-post="/add_point" hx-swap="none">
         <input
             type="text"
             name="location_name"
@@ -90,6 +90,6 @@
     </form>
 
     <br>
-    <h3>List of observation points:</h3>
+    <h3>List of Points</h3>
     <div id="markerList"></div>
 {% endblock %}

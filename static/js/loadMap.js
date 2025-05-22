@@ -181,32 +181,36 @@ function addMarkerToList(id, lat, lng, name, deviceId = null) {
 
   const displayDeviceId = deviceId !== null ? deviceId : "(pending...)";
 
-  const sensorInfoRow = deviceId !== null
-    ? `<div class="flex items-center gap-2">
-         <span>Device ID: ${displayDeviceId}</span>
-         <a href="/points/${deviceId}" class="text-sm text-green-600 underline hover:text-green-800" target="_blank">View air data</a>
-       </div>`
-    : `<div>Device ID: ${displayDeviceId}</div>`;
-
   entry.innerHTML = window.isUser ? `
-    <div class="border border-gray-500 rounded px-4 py-2 my-2">
-      <span class="underline">${name}</span><br>
-      ${sensorInfoRow}
-      Latitude: ${lat.toFixed(4)}<br>
-      Longitude: ${lng.toFixed(4)}<br>
+    <div class="flex items-center justify-between border border-gray-200 rounded px-4 py-1 my-1 text-lg">
+      <span>
+        ${displayDeviceId}: ${name} (${lat.toFixed(4)}, ${lng.toFixed(4)})
+      </span>
+      <div class="flex gap-2">
+        <a
+          href="/points/${deviceId}"
+          class="px-2 border border-green-600 text-green-600 rounded hover:underline transition"
+          target="_blank"
+        >View Data</a>
+      </div>
     </div>
   `
   : `
-    <div class="border border-gray-500 rounded px-4 py-2 my-2">
-      <span class="underline">${name}</span><br>
-      ${sensorInfoRow}
-      Latitude: ${lat.toFixed(4)}<br>
-      Longitude: ${lng.toFixed(4)}<br>
-      <button 
-        onclick="deleteMarker(${id}, ${deviceId})"
-        class="mt-1 px-2 bg-red-500 text-white rounded hover:bg-red-600 transition">
-          Delete observation point
-      </button>
+    <div class="flex items-center justify-between border border-gray-200 rounded px-4 py-1 my-1 text-lg">
+      <span>
+        ${displayDeviceId}: ${name} (${lat.toFixed(4)}, ${lng.toFixed(4)})
+      </span>
+      <div class="flex gap-2">
+        <button 
+          onclick="deleteMarker(${id}, ${deviceId})"
+          class="px-2 border border-red-600 text-red-600 rounded hover:underline transition"
+        > Delete </button>
+        <a
+          href="/points/${deviceId}"
+          class="px-2 border border-green-600 text-green-600 rounded hover:underline transition"
+          target="_blank"
+        >View Data</a>
+      </div>
     </div>
   `
   ;
