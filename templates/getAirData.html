@@ -5,6 +5,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1"></script>
 {% endblock %}
 
 {% block style %}
@@ -133,6 +136,11 @@
                                 stepSize: 5,
                                 displayFormats: {
                                     minute: "MM/dd, HH:mm"
+                                }
+                            },
+                            adapters: {
+                                date: {
+                                    zone: "Asia/Manila"  // UTC+8
                                 }
                             },
                             ticks: { minRotation: 30, maxRotation: 30 },
