@@ -52,6 +52,7 @@ async def open_map(request: Request):
         name="map.html"
         )
 
+
 @app.get("/user", response_class=HTMLResponse)
 async def open_user(request: Request):
     """
@@ -78,7 +79,16 @@ def get_air_data(request: Request, device_id: int):
     particle_conc: tuple[float, float, float] = compute_particle_conc(device_id)
 
     statuses: dict[str, AirStatus] = compute_air_status(gas_conc, *particle_conc)
-    timestamp: datetime = get_most_recent_air_data(device_id).timestamp
+    
+    MOSTRECENT = get_most_recent_air_data(device_id)
+    timestamp: datetime = MOSTRECENT.timestamp
+    gas_value_recent: int = MOSTRECENT.gas_value
+    pm1_0_recent: int = MOSTRECENT.pm1_0
+    pm2_5_recent: int = MOSTRECENT.pm2_5
+    pm10_0_recent: int = MOSTRECENT.pm10_0
+
+    print("---> most recent pm10", pm10_0_recent)
+
 
     return templates.TemplateResponse(
         name="getAirData.html",
@@ -93,6 +103,10 @@ def get_air_data(request: Request, device_id: int):
             "pm1_0_conc": f"{round(particle_conc[0], 5)} ppm ({statuses['pm1_0']})",
             "pm2_5_conc": f"{round(particle_conc[1], 5)} ppm ({statuses['pm2_5']})",
             "pm10_0_conc": f"{round(particle_conc[2], 5)} ppm ({statuses['pm10_0']})",
+            "gas_value_recent": f"{gas_value_recent} ppm",
+            "pm1_0_conc_recent": f"{pm1_0_recent} ppm",
+            "pm2_5_conc_recent": f"{pm2_5_recent} ppm",
+            "pm10_0_conc_recent": f"{pm10_0_recent} ppm",
             }
         )
 

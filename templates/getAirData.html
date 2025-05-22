@@ -2,9 +2,9 @@
 {% block title %}Air Quality Data{% endblock %}
 
 {% block script %}
-    <script lang="ts">
-        /** script */
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
 {% endblock %}
 
 {% block style %}
@@ -16,37 +16,49 @@
 {% block body%}
     <h1>Information at Sensor # {{ device_id }}</h1>
     <span class="italic text-slate-500 mb-2">(Updated as of {{ timestamp|to_ph_time() }})</span>
-    <ul class="list-inside list-disc">
+    <br>
+    <ul class="list-inside list-disc text-lg">
         <li>Device ID:
             <span id="device_id">{{ device_id }}</span>
         </li>
-        
         <li>Location name:
             <span id="location_name">{{ location_name }}</span>
         </li>
-
-        <li>Coordinates: 
+        <li>Coordinates:
             <span id="latitude">{{ latitude }}</span>,
             <span id="longitude">{{ longitude }}</span>
         </li>
-        
-        <li>Gas concentration:
-            <span id="gas_conc">{{ gas_conc }}</span>
-        </li>
-        
-        <li>Particle concentration (1.0 µm):
-            <span id="particle_conc"> {{pm1_0_conc}} </span>
-        </li>
-
-        <li>Particle concentration (2.5 µm):
-            <span id="particle_conc"> {{pm2_5_conc}} </span>
-        </li>
-
-        <li>Particle concentration (10.0 µm):
-            <span id="particle_conc"> {{pm10_0_conc}} </span>
-        </li>
     </ul>
-    
+    <br>
+
+    <div class="flex gap-8 text-xl">
+        <ul class="list-inside underline">
+            <li class="text-transparent no-underline">.</li>
+            <li>Gas concentration:</li>
+            <li>Particle concentration (1.0 µm):</li>
+            <li>Particle concentration (2.5 µm):</li>
+            <li>Particle concentration (10.0 µm):</li>
+        </ul>
+        <div>
+            <h2 class="italic font-bold">Most recent</h2>
+            <ul class="text-lg">
+                <li> {{ gas_value_recent }} </li>
+                <li> {{ pm1_0_conc_recent }} </li>
+                <li> {{ pm2_5_conc_recent }} </li>
+                <li> {{ pm10_0_conc_recent }} </li>
+            </ul>
+        </div>
+        <div>
+            <h2 class="italic font-bold">Over last 2 minutes</h2>
+            <ul class="text-lg">
+                <li> {{ gas_conc }} </li>
+                <li> {{ pm1_0_conc }} </li>
+                <li> {{ pm2_5_conc }} </li>
+                <li> {{ pm10_0_conc }} </li>
+            </ul>
+        </div>
+    </div>
+    <br>
     <div class="flex gap-1">
         <button
             id="reload"
@@ -62,4 +74,56 @@
 {% endblock %}
 
 {% block chartscript %}
+    <!--script>
+        const dev_id = {{ device_id }}
+
+        async function drawChart(canvas_id, metric) {
+            console.log(`drawing ${metric} for device ${dev_id}`);
+            
+            const url = `/api/chart-data?device_id=${dev_id}&metric=${metric}`;
+            console.log("Fetching:", url);
+            
+            const res = await fetch(`/api/chart-data?device_id=${dev_id}&metric=${metric}`);
+            const chartData = await res.json();
+
+            const ctx = document.getElementById(canvas_id).getContext("2d");
+
+            new Chart(ctx, {
+                type: "line",
+                data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: chartData.label,
+                    data: chartData.data,
+                    borderColor: chartData.borderColor,
+                    fill: false
+                }],
+                },
+                options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                    type: "time",
+                    time: {
+                        unit: "minute",
+                        stepSize: 5,
+                        displayFormats: {
+                        minute: "MM/dd, HH:mm" // e.g., "05/21, 14:35"
+                        }
+                    },
+                    ticks: { minRotation: 30, maxRotation: 30 },
+                    },
+                },
+                },
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+        drawChart("dataChart_gas_conc", "gas");
+        drawChart("dataChart_pm1_0", "pm1");
+        drawChart("dataChart_pm2_5", "pm2.5");
+        drawChart("dataChart_pm10_0", "pm10");
+        });
+    </script -->
 {% endblock %}
