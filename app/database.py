@@ -3,7 +3,7 @@ from sqlmodel import SQLModel, create_engine, Session, select
 from models import *
 from statistics import mean
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -139,7 +139,16 @@ def get_most_recent_air_data(device_id: int) -> AirData:
             .order_by(AirData.timestamp.desc())  # type: ignore
         most_recent = session.exec(query).first()
 
-        assert type(most_recent) is AirData
+        if most_recent is None:
+            return AirData(
+                device_id=device_id,
+                sequence=0,
+                timestamp=datetime.now(),
+                gas_value=0,
+                pm1_0=0,
+                pm2_5=0,
+                pm10_0=0,
+            )
 
         return most_recent
 
