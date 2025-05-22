@@ -67,23 +67,30 @@
         >Reload page</button>
         <a
             id="gotographs"
-            class="text-red-500 hover:underline border border-red-500 px-2 rounded"
+            class="text-blue-500 hover:underline border border-blue-500 px-2 rounded"
             href="/graphs/{{ device_id }}"
-        >Open graphs</a>
+        >Open full history</a>
+    </div>
+    
+    <div class="center">
+        <canvas id="dataChart_gas_conc" width="1200" height="300"></canvas>
+        <canvas id="dataChart_pm2_5" width="1200" height="300"></canvas>
+        <canvas id="dataChart_pm1_0" width="1200" height="300"></canvas>
+        <canvas id="dataChart_pm10_0" width="1200" height="300"></canvas>
     </div>
 {% endblock %}
 
 {% block chartscript %}
-    <!--script>
-        const dev_id = {{ device_id }}
+    <script>
+        const device_id = {{ device_id }};
 
         async function drawChart(canvas_id, metric) {
-            console.log(`drawing ${metric} for device ${dev_id}`);
+            console.log(`drawing ${metric} for device ${device_id}`);
             
-            const url = `/api/chart-data?device_id=${dev_id}&metric=${metric}`;
+            const url = `/api/chart-data-recent?device_id=${device_id}&metric=${metric}`;
             console.log("Fetching:", url);
             
-            const res = await fetch(`/api/chart-data?device_id=${dev_id}&metric=${metric}`);
+            const res = await fetch(url);
             const chartData = await res.json();
 
             const ctx = document.getElementById(canvas_id).getContext("2d");
@@ -120,10 +127,10 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-        drawChart("dataChart_gas_conc", "gas");
-        drawChart("dataChart_pm1_0", "pm1");
-        drawChart("dataChart_pm2_5", "pm2.5");
-        drawChart("dataChart_pm10_0", "pm10");
+            drawChart("dataChart_gas_conc", "gas");
+            drawChart("dataChart_pm1_0", "pm1");
+            drawChart("dataChart_pm2_5", "pm2.5");
+            drawChart("dataChart_pm10_0", "pm10");
         });
-    </script -->
+    </script>
 {% endblock %}

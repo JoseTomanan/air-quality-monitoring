@@ -13,6 +13,14 @@ from services.admin import *
 from services.sensor import *
 
 
+METRIC_MAP = {
+        "gas": (1, "Gas Concentration", "rgb(75, 192, 192)"),
+        "pm1": (2, "PM 1.0", "rgb(255, 99, 132)"),
+        "pm2.5": (3, "PM 2.5", "rgb(75, 192, 75)"),
+        "pm10": (4, "PM 10.0", "rgb(255, 206, 86)")
+    }
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """
@@ -208,12 +216,25 @@ async def get_chart_data(device_id: int, metric: str):
     values: tuple[list,list,list,list,list] = get_all_values_from_data(device_id)
     x_axis: list[str] = values[0]
 
-    METRIC_MAP = {
-        "gas": (1, "Gas Concentration", "rgb(75, 192, 192)"),
-        "pm1": (2, "PM 1.0", "rgb(255, 99, 132)"),
-        "pm2.5": (3, "PM 2.5", "rgb(75, 192, 75)"),
-        "pm10": (4, "PM 10.0", "rgb(255, 206, 86)")
+    idx, label, color = METRIC_MAP[metric]
+
+    return {
+        "labels": x_axis,
+        "label": label,
+        "data": values[idx],
+        "borderColor": color
     }
+
+
+@app.get("/api/chart-data-recent")
+async def get_chart_data_recent(device_id: int, metric: str):
+    """
+    Fetch most recent chart data for a specific device and metric
+    """
+    print(f"---> Received request: device_id={device_id}, metric={metric}")
+
+    values: tuple[list,list,list,list,list] = get_ten_latest_values(device_id)
+    x_axis: list[str] = values[0]
 
     idx, label, color = METRIC_MAP[metric]
 
