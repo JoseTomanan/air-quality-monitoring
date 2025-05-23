@@ -107,13 +107,13 @@ def get_air_data(request: Request, device_id: int):
             "latitude": point.latitude,
             "longitude": point.longitude,
             "gas_conc": f"{round(gas_conc, 5)} ppm ({statuses['gas_conc']})",
-            "pm1_0_conc": f"{round(particle_conc[0], 5)} ppm ({statuses['pm1_0']})",
-            "pm2_5_conc": f"{round(particle_conc[1], 5)} ppm ({statuses['pm2_5']})",
-            "pm10_0_conc": f"{round(particle_conc[2], 5)} ppm ({statuses['pm10_0']})",
+            "pm1_0_conc": f"{round(particle_conc[0], 5)} μg/m³ ({statuses['pm1_0']})",
+            "pm2_5_conc": f"{round(particle_conc[1], 5)} μg/m³ ({statuses['pm2_5']})",
+            "pm10_0_conc": f"{round(particle_conc[2], 5)} μg/m³ ({statuses['pm10_0']})",
             "gas_value_recent": f"{gas_value_recent} ppm",
-            "pm1_0_conc_recent": f"{pm1_0_recent} ppm",
-            "pm2_5_conc_recent": f"{pm2_5_recent} ppm",
-            "pm10_0_conc_recent": f"{pm10_0_recent} ppm",
+            "pm1_0_conc_recent": f"{pm1_0_recent} μg/m³",
+            "pm2_5_conc_recent": f"{pm2_5_recent} μg/m³",
+            "pm10_0_conc_recent": f"{pm10_0_recent} μg/m³",
             }
         )
 
